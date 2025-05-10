@@ -1,0 +1,21 @@
+# Dockerfile-airflow
+# 1) Base Airflow sur Python 3.10
+FROM apache/airflow:2.7.1-python3.10
+
+# 2) Switch en user airflow pour installer pip-packages
+USER airflow
+
+# 3) Installer les providers + le plugin dbt-postgres (qui embarque dbt-core)
+RUN pip install --no-cache-dir \
+    apache-airflow-providers-amazon \
+    apache-airflow-providers-postgres \
+    apache-airflow-providers-docker \
+    dbt-postgres==1.9.0
+
+# 4) Repasse en root pour ajuster les liens et permissions
+USER root
+RUN ln -sf /usr/local/bin/python3 /usr/local/bin/python \
+    && chown -R airflow: /home/airflow/.local
+
+# 5) Enfin repasse en airflow
+USER airflow
