@@ -1,26 +1,30 @@
-# 1) Variables d’environnement
-.env
-
-# 2) Fichiers Python compilés
+# Python
 __pycache__/
 *.py[cod]
+*.so
+env/
+venv/
 
-# 3) Logs (Airflow, dbt, etc.)
+# DBT
+target/
+dbt_modules/
+
+# Airflow
 logs/
 *.log
 
-# 4) DBT
-statsbomb_dbt/target/
-statsbomb_dbt/dbt_packages/
-statsbomb_dbt/.temp/
-statsbomb_dbt/logs/
-
-# 5) Profils DBT (contiennent tes credentials)
-dbt_profiles/
-
-# 6) IDEs / éditeurs
-.vscode/
-.idea/
-
-# 7) Systèmes
+# OS
 .DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Envs et secrets
+.env
+create_tables.sql
+superset_config.py
+
+# IDE
+.idea/
+.vscode/
