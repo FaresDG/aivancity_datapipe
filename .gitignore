@@ -1,0 +1,95 @@
+# ========================
+# Environnements & secrets
+# ========================
+# variables d'environnement
+.env
+.env.* 
+
+# fichiers de configuration locaux (docker-compose.override.yml, etc.)
+docker-compose.override.yml
+*.local.yml
+
+# ========================
+# Python
+# ========================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# virtualenv / venv
+venv/
+.venv/
+env/
+.env/
+
+# distributions / packaging
+build/
+dist/
+*.egg-info/
+eggs/
+parts/
+sdist/
+*.whl
+
+# logs
+*.log
+
+# ========================
+# Airflow
+# ========================
+# base de données sqlite locale
+airflow.db
+# logs Airflow
+logs/
+# cache & metastore
+.airflow/
+# connexion aux exécutors, fernet keys…
+*.cfg
+
+# ========================
+# DBT (statsbomb_dbt)
+# ========================
+statsbomb_dbt/target/
+statsbomb_dbt/logs/
+dbt_packages/
+dbt_modules/
+
+# profils (attention si vous ne voulez pas versionner les credentials)
+dbt_profiles/
+
+# ========================
+# Docker
+# ========================
+# sockets, volumes, images locales…
+**/docker-compose*.yml
+**/Dockerfile*
+
+# ========================
+# IDE & éditeurs
+# ========================
+# VSCode
+.vscode/
+.history/
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# ========================
+# Systèmes d’exploitation
+# ========================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ========================
+# Fichiers temporaires
+# ========================
+*~
+*.swp

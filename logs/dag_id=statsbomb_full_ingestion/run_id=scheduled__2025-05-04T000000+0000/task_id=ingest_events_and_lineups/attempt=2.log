@@ -1,0 +1,385 @@
+[2025-05-05T10:25:13.159+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-04T00:00:00+00:00/task_id=ingest_events_and_lineups permission to 509
+[2025-05-05T10:25:13.243+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-04T00:00:00+00:00/task_id=ingest_events_and_lineups permission to 509
+[2025-05-05T10:25:13.288+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: statsbomb_full_ingestion.ingest_events_and_lineups scheduled__2025-05-04T00:00:00+00:00 [queued]>
+[2025-05-05T10:25:13.299+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: statsbomb_full_ingestion.ingest_events_and_lineups scheduled__2025-05-04T00:00:00+00:00 [queued]>
+[2025-05-05T10:25:13.300+0000] {taskinstance.py:1359} INFO - Starting attempt 2 of 2
+[2025-05-05T10:25:13.318+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): ingest_events_and_lineups> on 2025-05-04 00:00:00+00:00
+[2025-05-05T10:25:13.322+0000] {standard_task_runner.py:57} INFO - Started process 315 to run task
+[2025-05-05T10:25:13.325+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'statsbomb_full_ingestion', 'ingest_events_and_lineups', 'scheduled__2025-05-04T00:00:00+00:00', '--job-id', '65', '--raw', '--subdir', 'DAGS_FOLDER/statsbomb_ingestion.py', '--cfg-path', '/tmp/tmplsmqjqfz']
+[2025-05-05T10:25:13.328+0000] {standard_task_runner.py:85} INFO - Job 65: Subtask ingest_events_and_lineups
+[2025-05-05T10:25:13.388+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-04T00:00:00+00:00/task_id=ingest_events_and_lineups permission to 509
+[2025-05-05T10:25:13.401+0000] {task_command.py:415} INFO - Running <TaskInstance: statsbomb_full_ingestion.ingest_events_and_lineups scheduled__2025-05-04T00:00:00+00:00 [running]> on host 9374481500cf
+[2025-05-05T10:25:13.499+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='statsbomb_full_ingestion' AIRFLOW_CTX_TASK_ID='ingest_events_and_lineups' AIRFLOW_CTX_EXECUTION_DATE='2025-05-04T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-05-04T00:00:00+00:00'
+[2025-05-05T10:25:14.380+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895302.json
+[2025-05-05T10:25:15.175+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-05-05T10:25:15.179+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:15.182+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:17.039+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895302.json
+[2025-05-05T10:25:17.045+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895302.json
+[2025-05-05T10:25:17.477+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:17.479+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:17.640+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895302.json
+[2025-05-05T10:25:17.643+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895292.json
+[2025-05-05T10:25:18.678+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:18.681+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:18.942+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895292.json
+[2025-05-05T10:25:18.947+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895292.json
+[2025-05-05T10:25:19.337+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:19.339+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:19.487+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895292.json
+[2025-05-05T10:25:19.491+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895333.json
+[2025-05-05T10:25:20.124+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:20.127+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:20.526+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895333.json
+[2025-05-05T10:25:20.531+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895333.json
+[2025-05-05T10:25:20.931+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:20.934+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:21.072+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895333.json
+[2025-05-05T10:25:21.078+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895340.json
+[2025-05-05T10:25:21.800+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:21.802+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:21.987+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895340.json
+[2025-05-05T10:25:21.990+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895340.json
+[2025-05-05T10:25:22.464+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:22.467+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:22.598+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895340.json
+[2025-05-05T10:25:22.601+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895348.json
+[2025-05-05T10:25:23.454+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:23.457+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:23.756+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895348.json
+[2025-05-05T10:25:23.761+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895348.json
+[2025-05-05T10:25:24.183+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:24.187+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:24.285+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895348.json
+[2025-05-05T10:25:24.290+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895286.json
+[2025-05-05T10:25:25.998+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:25.999+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:26.393+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895286.json
+[2025-05-05T10:25:26.396+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895286.json
+[2025-05-05T10:25:26.796+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:26.799+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:26.975+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895286.json
+[2025-05-05T10:25:26.979+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895220.json
+[2025-05-05T10:25:28.327+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:28.334+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:28.723+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895220.json
+[2025-05-05T10:25:28.729+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895220.json
+[2025-05-05T10:25:29.141+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:29.144+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:29.293+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895220.json
+[2025-05-05T10:25:29.299+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895250.json
+[2025-05-05T10:25:30.212+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:30.214+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:30.397+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895250.json
+[2025-05-05T10:25:30.402+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895250.json
+[2025-05-05T10:25:30.833+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:30.835+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:31.034+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895250.json
+[2025-05-05T10:25:31.038+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895266.json
+[2025-05-05T10:25:31.685+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:31.687+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:32.007+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895266.json
+[2025-05-05T10:25:32.010+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895266.json
+[2025-05-05T10:25:32.497+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:32.499+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:32.667+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895266.json
+[2025-05-05T10:25:32.673+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895275.json
+[2025-05-05T10:25:33.380+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:33.383+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:33.564+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895275.json
+[2025-05-05T10:25:33.571+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895275.json
+[2025-05-05T10:25:34.390+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:34.393+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:34.561+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895275.json
+[2025-05-05T10:25:34.566+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895180.json
+[2025-05-05T10:25:35.377+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:35.380+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:35.700+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895180.json
+[2025-05-05T10:25:35.704+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895180.json
+[2025-05-05T10:25:36.168+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:36.170+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:36.303+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895180.json
+[2025-05-05T10:25:36.310+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895134.json
+[2025-05-05T10:25:37.236+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:37.237+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:37.395+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895134.json
+[2025-05-05T10:25:37.400+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895134.json
+[2025-05-05T10:25:37.791+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:37.794+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:37.921+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895134.json
+[2025-05-05T10:25:37.925+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895121.json
+[2025-05-05T10:25:38.534+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:38.536+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:38.943+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895121.json
+[2025-05-05T10:25:38.948+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895121.json
+[2025-05-05T10:25:39.300+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:39.303+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:39.430+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895121.json
+[2025-05-05T10:25:39.434+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895107.json
+[2025-05-05T10:25:40.163+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:40.165+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:40.291+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895107.json
+[2025-05-05T10:25:40.294+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895107.json
+[2025-05-05T10:25:40.722+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:40.724+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:40.958+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895107.json
+[2025-05-05T10:25:40.963+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895074.json
+[2025-05-05T10:25:41.704+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:41.706+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:41.854+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895074.json
+[2025-05-05T10:25:41.859+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895074.json
+[2025-05-05T10:25:42.325+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:42.327+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:42.479+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895074.json
+[2025-05-05T10:25:42.483+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895139.json
+[2025-05-05T10:25:43.170+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:43.173+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:43.397+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895139.json
+[2025-05-05T10:25:43.401+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895139.json
+[2025-05-05T10:25:43.800+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:43.802+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:44.103+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895139.json
+[2025-05-05T10:25:44.106+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895086.json
+[2025-05-05T10:25:45.266+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:45.268+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:45.423+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895086.json
+[2025-05-05T10:25:45.427+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895086.json
+[2025-05-05T10:25:45.900+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:45.903+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:46.025+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895086.json
+[2025-05-05T10:25:46.030+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895320.json
+[2025-05-05T10:25:47.072+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:47.074+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:47.471+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895320.json
+[2025-05-05T10:25:47.475+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895320.json
+[2025-05-05T10:25:47.867+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:47.869+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:48.121+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895320.json
+[2025-05-05T10:25:48.125+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895309.json
+[2025-05-05T10:25:48.775+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:48.777+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:48.933+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895309.json
+[2025-05-05T10:25:48.937+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895309.json
+[2025-05-05T10:25:49.323+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:49.326+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:49.441+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895309.json
+[2025-05-05T10:25:49.444+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895258.json
+[2025-05-05T10:25:50.024+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:50.026+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:50.415+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895258.json
+[2025-05-05T10:25:50.418+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895258.json
+[2025-05-05T10:25:50.796+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:50.798+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:51.069+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895258.json
+[2025-05-05T10:25:51.073+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895244.json
+[2025-05-05T10:25:51.785+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:51.786+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:51.909+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895244.json
+[2025-05-05T10:25:51.911+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895244.json
+[2025-05-05T10:25:52.263+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:52.265+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:52.764+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895244.json
+[2025-05-05T10:25:52.767+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895232.json
+[2025-05-05T10:25:53.672+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:53.674+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:54.280+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895232.json
+[2025-05-05T10:25:54.285+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895232.json
+[2025-05-05T10:25:54.691+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:54.693+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:55.073+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895232.json
+[2025-05-05T10:25:55.077+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895210.json
+[2025-05-05T10:25:55.863+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:55.865+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:56.069+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895210.json
+[2025-05-05T10:25:56.074+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895210.json
+[2025-05-05T10:25:56.505+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:56.506+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:56.603+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895210.json
+[2025-05-05T10:25:56.606+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895202.json
+[2025-05-05T10:25:57.231+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:57.233+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:57.377+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895202.json
+[2025-05-05T10:25:57.381+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895202.json
+[2025-05-05T10:25:57.845+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:57.847+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:58.079+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895202.json
+[2025-05-05T10:25:58.082+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895194.json
+[2025-05-05T10:25:58.858+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:58.860+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:59.155+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895194.json
+[2025-05-05T10:25:59.159+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895194.json
+[2025-05-05T10:25:59.497+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:25:59.499+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:25:59.607+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895194.json
+[2025-05-05T10:25:59.610+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895182.json
+[2025-05-05T10:26:00.286+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:00.289+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:00.468+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895182.json
+[2025-05-05T10:26:00.474+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895182.json
+[2025-05-05T10:26:00.881+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:00.885+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:01.249+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895182.json
+[2025-05-05T10:26:01.252+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895167.json
+[2025-05-05T10:26:01.923+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:01.925+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:02.078+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895167.json
+[2025-05-05T10:26:02.081+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895167.json
+[2025-05-05T10:26:02.489+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:02.491+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:02.946+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895167.json
+[2025-05-05T10:26:02.949+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895158.json
+[2025-05-05T10:26:03.606+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:03.609+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:03.743+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895158.json
+[2025-05-05T10:26:03.746+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895158.json
+[2025-05-05T10:26:04.482+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:04.484+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:04.738+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895158.json
+[2025-05-05T10:26:04.742+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895153.json
+[2025-05-05T10:26:05.543+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:05.545+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:05.733+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895153.json
+[2025-05-05T10:26:05.736+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895153.json
+[2025-05-05T10:26:06.121+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:06.124+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:06.218+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895153.json
+[2025-05-05T10:26:06.221+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895113.json
+[2025-05-05T10:26:06.911+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:06.913+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:07.047+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895113.json
+[2025-05-05T10:26:07.050+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895113.json
+[2025-05-05T10:26:07.514+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:07.516+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:07.914+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895113.json
+[2025-05-05T10:26:07.917+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895095.json
+[2025-05-05T10:26:08.532+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:08.534+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:08.662+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895095.json
+[2025-05-05T10:26:08.665+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895095.json
+[2025-05-05T10:26:09.058+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:09.061+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:09.200+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895095.json
+[2025-05-05T10:26:09.205+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895067.json
+[2025-05-05T10:26:10.560+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:10.564+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:10.813+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895067.json
+[2025-05-05T10:26:10.817+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895067.json
+[2025-05-05T10:26:11.234+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:11.236+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:11.481+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895067.json
+[2025-05-05T10:26:11.485+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895060.json
+[2025-05-05T10:26:12.079+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:12.081+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:12.483+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895060.json
+[2025-05-05T10:26:12.486+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895060.json
+[2025-05-05T10:26:12.925+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:12.934+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:13.028+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895060.json
+[2025-05-05T10:26:13.032+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3895052.json
+[2025-05-05T10:26:13.744+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:13.746+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:13.887+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3895052.json
+[2025-05-05T10:26:13.892+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3895052.json
+[2025-05-05T10:26:14.269+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:14.272+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:14.548+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3895052.json
+[2025-05-05T10:26:14.961+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3890561.json
+[2025-05-05T10:26:15.690+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:15.692+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:16.343+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3890561.json
+[2025-05-05T10:26:16.351+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3890561.json
+[2025-05-05T10:26:17.017+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:17.021+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:17.345+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3890561.json
+[2025-05-05T10:26:17.349+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3890505.json
+[2025-05-05T10:26:17.999+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:18.002+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:18.352+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3890505.json
+[2025-05-05T10:26:18.359+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3890505.json
+[2025-05-05T10:26:18.797+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:18.799+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:18.920+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3890505.json
+[2025-05-05T10:26:18.923+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3890511.json
+[2025-05-05T10:26:19.661+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:19.664+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:19.887+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3890511.json
+[2025-05-05T10:26:19.894+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3890511.json
+[2025-05-05T10:26:20.394+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:20.397+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:20.765+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3890511.json
+[2025-05-05T10:26:20.769+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3890515.json
+[2025-05-05T10:26:21.766+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:21.768+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:23.109+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3890515.json
+[2025-05-05T10:26:23.206+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3890515.json
+[2025-05-05T10:26:23.783+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:23.795+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:24.687+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3890515.json
+[2025-05-05T10:26:24.701+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3890411.json
+[2025-05-05T10:26:25.560+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:25.563+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:26:33.569+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/events/3890411.json
+[2025-05-05T10:26:34.055+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/3890411.json
+[2025-05-05T10:26:36.261+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:26:36.397+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:27:02.725+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/lineups/3890411.json
+[2025-05-05T10:27:03.694+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/3890397.json
+[2025-05-05T10:28:22.324+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 714, in urlopen
+    httplib_response = self._make_request(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 403, in _make_request
+    self._validate_conn(conn)
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 1053, in _validate_conn
+    conn.connect()
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connection.py", line 419, in connect
+    self.sock = ssl_wrap_socket(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/util/ssl_.py", line 449, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/util/ssl_.py", line 493, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+  File "/usr/local/lib/python3.8/ssl.py", line 500, in wrap_socket
+    return self.sslsocket_class._create(
+  File "/usr/local/lib/python3.8/ssl.py", line 1073, in _create
+    self.do_handshake()
+  File "/usr/local/lib/python3.8/ssl.py", line 1342, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLEOFError: EOF occurred in violation of protocol (_ssl.c:1131)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 798, in urlopen
+    retries = retries.increment(
+  File "/home/airflow/.local/lib/python3.8/site-packages/urllib3/util/retry.py", line 592, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='raw.githubusercontent.com', port=443): Max retries exceeded with url: /statsbomb/open-data/master/data/events/3890397.json (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1131)')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/statsbomb_ingestion.py", line 100, in ingest_events_and_lineups
+    fetch_and_upload(key=key_ev, url=url_ev)
+  File "/opt/airflow/dags/statsbomb_ingestion.py", line 31, in fetch_and_upload
+    resp = requests.get(url)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/airflow/.local/lib/python3.8/site-packages/requests/adapters.py", line 517, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: HTTPSConnectionPool(host='raw.githubusercontent.com', port=443): Max retries exceeded with url: /statsbomb/open-data/master/data/events/3890397.json (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1131)')))
+[2025-05-05T10:28:22.830+0000] {taskinstance.py:1398} INFO - Marking task as FAILED. dag_id=statsbomb_full_ingestion, task_id=ingest_events_and_lineups, execution_date=20250504T000000, start_date=20250505T102513, end_date=20250505T102822
+[2025-05-05T10:28:22.908+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 65 for task ingest_events_and_lineups (HTTPSConnectionPool(host='raw.githubusercontent.com', port=443): Max retries exceeded with url: /statsbomb/open-data/master/data/events/3890397.json (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1131)'))); 315)
+[2025-05-05T10:28:22.944+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-05-05T10:28:23.055+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

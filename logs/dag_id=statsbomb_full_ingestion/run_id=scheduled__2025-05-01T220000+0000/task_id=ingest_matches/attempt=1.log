@@ -1,0 +1,169 @@
+[2025-05-02T22:00:04.002+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-01T22:00:00+00:00/task_id=ingest_matches permission to 509
+[2025-05-02T22:00:04.046+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-01T22:00:00+00:00/task_id=ingest_matches permission to 509
+[2025-05-02T22:00:04.080+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: statsbomb_full_ingestion.ingest_matches scheduled__2025-05-01T22:00:00+00:00 [queued]>
+[2025-05-02T22:00:04.091+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: statsbomb_full_ingestion.ingest_matches scheduled__2025-05-01T22:00:00+00:00 [queued]>
+[2025-05-02T22:00:04.092+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 2
+[2025-05-02T22:00:04.105+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): ingest_matches> on 2025-05-01 22:00:00+00:00
+[2025-05-02T22:00:04.111+0000] {standard_task_runner.py:57} INFO - Started process 619 to run task
+[2025-05-02T22:00:04.114+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'statsbomb_full_ingestion', 'ingest_matches', 'scheduled__2025-05-01T22:00:00+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/statsbomb_ingestion.py', '--cfg-path', '/tmp/tmpja161dy_']
+[2025-05-02T22:00:04.117+0000] {standard_task_runner.py:85} INFO - Job 12: Subtask ingest_matches
+[2025-05-02T22:00:04.177+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-01T22:00:00+00:00/task_id=ingest_matches permission to 509
+[2025-05-02T22:00:04.192+0000] {task_command.py:415} INFO - Running <TaskInstance: statsbomb_full_ingestion.ingest_matches scheduled__2025-05-01T22:00:00+00:00 [running]> on host e2d1066c2b98
+[2025-05-02T22:00:04.277+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='statsbomb_full_ingestion' AIRFLOW_CTX_TASK_ID='ingest_matches' AIRFLOW_CTX_EXECUTION_DATE='2025-05-01T22:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-05-01T22:00:00+00:00'
+[2025-05-02T22:00:04.281+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-05-02T22:00:04.283+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:04.290+0000] {logging_mixin.py:151} WARNING - <string>:8 AirflowProviderDeprecationWarning: AWS Connection (conn_id='minio_default', conn_type='s3') has connection type 's3', which has been replaced by connection type 'aws'. Please update your connection to have `conn_type='aws'`.
+[2025-05-02T22:00:04.291+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:04.293+0000] {logging_mixin.py:151} WARNING - <string>:8 AirflowProviderDeprecationWarning: Host minio specified in the connection is not used. Please, set it on extra['endpoint_url'] instead
+[2025-05-02T22:00:04.622+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:04.624+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:05.133+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:05.135+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:05.528+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:05.530+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:05.973+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:05.975+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:06.543+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:06.544+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:07.006+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:07.008+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:07.153+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:07.155+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:07.411+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:07.413+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:07.779+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:07.781+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:08.052+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:08.054+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:08.422+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:08.425+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:08.720+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:08.722+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:09.222+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:09.224+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:09.569+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:09.571+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:10.006+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:10.008+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:10.541+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:10.543+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:11.073+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:11.075+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:11.637+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:11.639+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:12.036+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:12.037+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:12.159+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:12.161+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:12.550+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:12.552+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:12.877+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:12.879+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:13.187+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:13.189+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:13.375+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:13.376+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:13.774+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:13.776+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:14.028+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:14.030+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:14.223+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:14.225+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:14.557+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:14.560+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:14.752+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:14.753+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:14.966+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:14.968+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:15.284+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:15.287+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:15.794+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:15.795+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:16.111+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:16.113+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:16.522+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:16.524+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:17.176+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:17.177+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:18.165+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:18.168+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:18.876+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:18.878+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:19.576+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:19.578+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:19.889+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:19.890+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:20.212+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:20.214+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:20.444+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:20.447+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:20.668+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:20.670+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:20.936+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:20.938+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:21.519+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:21.522+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:22.085+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:22.087+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:22.498+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:22.500+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:22.861+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:22.863+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:23.484+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:23.487+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:23.765+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:23.766+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:24.073+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:24.075+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:24.312+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:24.314+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:24.799+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:24.802+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:24.995+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:24.997+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:25.194+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:25.195+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:25.413+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:25.414+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:25.824+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:25.826+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:26.047+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:26.048+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:26.402+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:26.405+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:26.948+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:26.950+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:27.462+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:27.464+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:27.945+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:27.946+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:28.436+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:28.437+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:29.041+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:29.045+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:29.897+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:29.899+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:30.168+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:30.170+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:30.492+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:30.494+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:30.976+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:30.978+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:31.825+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:31.827+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:32.533+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:32.535+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:32.895+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:32.897+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:33.161+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:33.163+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:33.606+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:33.609+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:34.006+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:34.009+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:34.393+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-02T22:00:34.395+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-02T22:00:34.563+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-05-02T22:00:34.752+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=statsbomb_full_ingestion, task_id=ingest_matches, execution_date=20250501T220000, start_date=20250502T220004, end_date=20250502T220034
+[2025-05-02T22:00:34.801+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-05-02T22:00:34.894+0000] {taskinstance.py:2776} INFO - 1 downstream tasks scheduled from follow-on schedule check

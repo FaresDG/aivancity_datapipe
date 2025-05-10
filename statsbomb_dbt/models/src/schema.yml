@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw
+    # on laisse dbt récupérer le bon DB depuis target.database
+    database: "{{ target.database }}"
+    schema: "{{ target.schema }}"
+    tables:
+      - name: competitions
+      - name: matches
+      - name: lineups
+      - name: events

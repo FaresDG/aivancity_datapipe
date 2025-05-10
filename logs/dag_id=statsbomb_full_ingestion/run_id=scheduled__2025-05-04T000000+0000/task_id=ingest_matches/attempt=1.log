@@ -1,0 +1,34 @@
+[2025-05-05T09:49:35.525+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-04T00:00:00+00:00/task_id=ingest_matches permission to 509
+[2025-05-05T09:49:35.640+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-04T00:00:00+00:00/task_id=ingest_matches permission to 509
+[2025-05-05T09:49:35.722+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: statsbomb_full_ingestion.ingest_matches scheduled__2025-05-04T00:00:00+00:00 [queued]>
+[2025-05-05T09:49:35.745+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: statsbomb_full_ingestion.ingest_matches scheduled__2025-05-04T00:00:00+00:00 [queued]>
+[2025-05-05T09:49:35.747+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 2
+[2025-05-05T09:49:35.781+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): ingest_matches> on 2025-05-04 00:00:00+00:00
+[2025-05-05T09:49:35.791+0000] {standard_task_runner.py:57} INFO - Started process 228 to run task
+[2025-05-05T09:49:35.798+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'statsbomb_full_ingestion', 'ingest_matches', 'scheduled__2025-05-04T00:00:00+00:00', '--job-id', '46', '--raw', '--subdir', 'DAGS_FOLDER/statsbomb_ingestion.py', '--cfg-path', '/tmp/tmp2abugu8b']
+[2025-05-05T09:49:35.806+0000] {standard_task_runner.py:85} INFO - Job 46: Subtask ingest_matches
+[2025-05-05T09:49:35.942+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_full_ingestion/run_id=scheduled__2025-05-04T00:00:00+00:00/task_id=ingest_matches permission to 509
+[2025-05-05T09:49:35.965+0000] {task_command.py:415} INFO - Running <TaskInstance: statsbomb_full_ingestion.ingest_matches scheduled__2025-05-04T00:00:00+00:00 [running]> on host db0a756e67ca
+[2025-05-05T09:49:36.175+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='statsbomb_full_ingestion' AIRFLOW_CTX_TASK_ID='ingest_matches' AIRFLOW_CTX_EXECUTION_DATE='2025-05-04T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-05-04T00:00:00+00:00'
+[2025-05-05T09:49:36.525+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/9/281.json
+[2025-05-05T09:49:37.068+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-05-05T09:49:37.074+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T09:49:37.094+0000] {logging_mixin.py:151} WARNING - <string>:8 AirflowProviderDeprecationWarning: AWS Connection (conn_id='minio_default', conn_type='s3') has connection type 's3', which has been replaced by connection type 'aws'. Please update your connection to have `conn_type='aws'`.
+[2025-05-05T09:49:37.099+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-05T09:49:37.106+0000] {logging_mixin.py:151} WARNING - <string>:8 AirflowProviderDeprecationWarning: Host minio specified in the connection is not used. Please, set it on extra['endpoint_url'] instead
+[2025-05-05T09:49:39.817+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/matches/9/281.json
+[2025-05-05T09:49:39.848+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/9/27.json
+[2025-05-05T09:49:40.582+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T09:49:40.707+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-05T09:49:49.037+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/matches/9/27.json
+[2025-05-05T09:49:49.317+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/1267/107.json
+[2025-05-05T09:49:50.221+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T09:49:50.252+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-05T09:49:52.078+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/matches/1267/107.json
+[2025-05-05T09:49:52.121+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/16/4.json
+[2025-05-05T09:49:53.464+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T09:49:54.145+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.
+[2025-05-05T09:51:05.274+0000] {statsbomb_ingestion.py:42} INFO - Uploaded to s3://statsbomb/matches/16/4.json
+[2025-05-05T09:51:05.367+0000] {statsbomb_ingestion.py:30} INFO - Downloading https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/16/1.json
+[2025-05-05T09:51:05.932+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T09:51:05.940+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='s3') credentials retrieved from login and password.

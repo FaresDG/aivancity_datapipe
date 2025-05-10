@@ -1,0 +1,16 @@
+name: "statsbomb_dbt"
+version: "1.0.0"
+config-version: 2
+
+profile: "statsbomb_dbt"
+
+# Où sont tes modèles ?
+model-paths: ["models"]
+
+# Configuration par dossier de modèles
+models:
+  statsbomb_dbt:
+    staging:
+      +schema: staging # le schema cible en Postgres
+      +materialized: view # on matérialise en vue
+      +tags: ["staging"]

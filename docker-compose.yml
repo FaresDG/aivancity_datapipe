@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  minio:
+    image: minio/minio:latest
+    env_file:
+      - .env
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_data:/data
+
+  postgres:
+    image: postgres:13
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql:ro
+
+  superset:
+    image: apache/superset:latest
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - superset_home:/home/superset
+      - ./superset_config.py:/app/pythonpath/superset_config.py:ro
+    environment:
+      SUPERSET_DATABASE_URI: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+    ports:
+      - "8088:8088"
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile-airflow
+    # on n’indique plus d’image “custom/…”, compose utilisera le build ci-dessus
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - minio
+    command: ["airflow", "standalone"]
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AIRFLOW_CONN_POSTGRES_DEFAULT:    postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      AIRFLOW__CORE__EXECUTOR:          LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY:        ${FERNET_KEY}
+      AIRFLOW__WEBSERVER__SECRET_KEY:   ${AIRFLOW_SECRET_KEY}
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+      AWS_ACCESS_KEY_ID:                ${MINIO_ROOT_USER}
+      AWS_SECRET_ACCESS_KEY:            ${MINIO_ROOT_PASSWORD}
+      AWS_DEFAULT_REGION:               us-east-1
+      AIRFLOW__AWS__S3_ENDPOINT_URL:    http://minio:9000
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./statsbomb_dbt:/opt/airflow/statsbomb_dbt
+      - ./dbt_profiles:/opt/airflow/dbt_profiles
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+
+
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.9.latest
+    container_name: dbt
+    working_dir: /usr/app
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - ./statsbomb_dbt:/usr/app
+      - ./dbt_profiles:/root/.dbt
+    ports:
+      - "8085:8085"
+    command: ["docs","serve","--port","8085","--host","0.0.0.0"]
+
+volumes:
+  minio_data:
+  postgres_data:
+  superset_home:

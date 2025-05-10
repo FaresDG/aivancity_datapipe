@@ -1,0 +1,1351 @@
+[2025-05-05T10:46:50.289+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_load_postgres/run_id=manual__2025-05-05T10:46:40.362391+00:00/task_id=upsert_competitions permission to 509
+[2025-05-05T10:46:50.358+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_load_postgres/run_id=manual__2025-05-05T10:46:40.362391+00:00/task_id=upsert_competitions permission to 509
+[2025-05-05T10:46:50.395+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: statsbomb_load_postgres.upsert_competitions manual__2025-05-05T10:46:40.362391+00:00 [queued]>
+[2025-05-05T10:46:50.408+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: statsbomb_load_postgres.upsert_competitions manual__2025-05-05T10:46:40.362391+00:00 [queued]>
+[2025-05-05T10:46:50.412+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 2
+[2025-05-05T10:46:50.430+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): upsert_competitions> on 2025-05-05 10:46:40.362391+00:00
+[2025-05-05T10:46:50.437+0000] {standard_task_runner.py:57} INFO - Started process 240 to run task
+[2025-05-05T10:46:50.440+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'statsbomb_load_postgres', 'upsert_competitions', 'manual__2025-05-05T10:46:40.362391+00:00', '--job-id', '77', '--raw', '--subdir', 'DAGS_FOLDER/load_to_postgres.py', '--cfg-path', '/tmp/tmprfr1lo00']
+[2025-05-05T10:46:50.445+0000] {standard_task_runner.py:85} INFO - Job 77: Subtask upsert_competitions
+[2025-05-05T10:46:50.517+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_load_postgres/run_id=manual__2025-05-05T10:46:40.362391+00:00/task_id=upsert_competitions permission to 509
+[2025-05-05T10:46:50.545+0000] {task_command.py:415} INFO - Running <TaskInstance: statsbomb_load_postgres.upsert_competitions manual__2025-05-05T10:46:40.362391+00:00 [running]> on host 13127f216b1c
+[2025-05-05T10:46:50.667+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='statsbomb_load_postgres' AIRFLOW_CTX_TASK_ID='upsert_competitions' AIRFLOW_CTX_EXECUTION_DATE='2025-05-05T10:46:40.362391+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-05-05T10:46:40.362391+00:00'
+[2025-05-05T10:46:50.674+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-05-05T10:46:50.677+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:46:50.795+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:46:51.853+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:51.869+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 9, 'season_id': 281, 'country_name': 'Germany', 'competition_name': '1. Bundesliga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2023/2024', 'match_updated': '2024-07-15T14:15:54.671676', 'match_updated_360': '2024-07-15T14:17:00.877356', 'match_available_360': '2024-07-15T14:17:00.877356', 'match_available': '2024-07-15T14:15:54.671676'}
+[2025-05-05T10:46:51.894+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:51.908+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:51.919+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 9, 'season_id': 27, 'country_name': 'Germany', 'competition_name': '1. Bundesliga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2015/2016', 'match_updated': '2024-05-19T11:11:14.192381', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-05-19T11:11:14.192381'}
+[2025-05-05T10:46:51.924+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:51.928+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:51.940+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 1267, 'season_id': 107, 'country_name': 'Africa', 'competition_name': 'African Cup of Nations', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '2023', 'match_updated': '2024-06-13T07:51:02.452825', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-06-13T07:51:02.452825'}
+[2025-05-05T10:46:51.951+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:51.971+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:51.980+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 4, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2018/2019', 'match_updated': '2024-06-12T07:44:38.559714', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-06-12T07:44:38.559714'}
+[2025-05-05T10:46:51.988+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:51.992+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.002+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 1, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2017/2018', 'match_updated': '2024-02-13T02:35:28.134882', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T02:35:28.134882'}
+[2025-05-05T10:46:52.009+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.026+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.035+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 2, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2016/2017', 'match_updated': '2024-02-13T02:37:32.205154', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T02:37:32.205154'}
+[2025-05-05T10:46:52.040+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.043+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.053+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 27, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2015/2016', 'match_updated': '2024-06-12T07:45:38.786894', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-06-12T07:45:38.786894'}
+[2025-05-05T10:46:52.060+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.080+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.089+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 26, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2014/2015', 'match_updated': '2024-02-12T12:49:54.914228', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T12:49:54.914228'}
+[2025-05-05T10:46:52.092+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.095+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.106+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 25, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2013/2014', 'match_updated': '2024-02-12T12:48:48.479157', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T12:48:48.479157'}
+[2025-05-05T10:46:52.110+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.113+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.126+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 24, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2012/2013', 'match_updated': '2024-02-12T12:47:34.340413', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T12:47:34.340413'}
+[2025-05-05T10:46:52.129+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.133+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.143+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 23, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2011/2012', 'match_updated': '2024-02-13T02:36:35.698340', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T02:36:35.698340'}
+[2025-05-05T10:46:52.147+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.151+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.159+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 22, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2010/2011', 'match_updated': '2024-02-12T12:53:03.944320', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T12:53:03.944320'}
+[2025-05-05T10:46:52.163+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.166+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.174+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 21, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2009/2010', 'match_updated': '2024-02-12T12:49:25.017694', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T12:49:25.017694'}
+[2025-05-05T10:46:52.176+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.179+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.188+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 41, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2008/2009', 'match_updated': '2024-02-13T07:02:54.657056', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T07:02:54.657056'}
+[2025-05-05T10:46:52.193+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.198+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.208+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 39, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2006/2007', 'match_updated': '2024-02-12T13:48:23.967222', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T13:48:23.967222'}
+[2025-05-05T10:46:52.215+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.219+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.229+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 37, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2004/2005', 'match_updated': '2024-02-12T13:09:19.665986', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T13:09:19.665986'}
+[2025-05-05T10:46:52.232+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.235+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.247+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 44, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2003/2004', 'match_updated': '2024-02-12T13:51:22.366380', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T13:51:22.366380'}
+[2025-05-05T10:46:52.252+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.257+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.264+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 76, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1999/2000', 'match_updated': '2020-07-29T05:00', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2020-07-29T05:00'}
+[2025-05-05T10:46:52.269+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.273+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.280+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 277, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1972/1973', 'match_updated': '2024-02-13T14:25:16.532771', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:25:16.532771'}
+[2025-05-05T10:46:52.283+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.287+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.296+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 71, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1971/1972', 'match_updated': '2024-02-12T14:25:01.735880', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T14:25:01.735880'}
+[2025-05-05T10:46:52.302+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.310+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.320+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 16, 'season_id': 276, 'country_name': 'Europe', 'competition_name': 'Champions League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1970/1971', 'match_updated': '2024-02-13T14:24:12.213582', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:24:12.213582'}
+[2025-05-05T10:46:52.323+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.328+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.337+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 223, 'season_id': 282, 'country_name': 'South America', 'competition_name': 'Copa America', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '2024', 'match_updated': '2024-07-15T18:00:33.653673', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-07-15T18:00:33.653673'}
+[2025-05-05T10:46:52.340+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.344+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.355+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 87, 'season_id': 84, 'country_name': 'Spain', 'competition_name': 'Copa del Rey', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1983/1984', 'match_updated': '2024-02-13T01:54:12.946985', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T01:54:12.946985'}
+[2025-05-05T10:46:52.359+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.363+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.372+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 87, 'season_id': 268, 'country_name': 'Spain', 'competition_name': 'Copa del Rey', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1982/1983', 'match_updated': '2024-02-13T14:19:57.954551', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:19:57.954551'}
+[2025-05-05T10:46:52.375+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.379+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.387+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 87, 'season_id': 279, 'country_name': 'Spain', 'competition_name': 'Copa del Rey', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1977/1978', 'match_updated': '2024-02-13T14:26:19.978418', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:26:19.978418'}
+[2025-05-05T10:46:52.391+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.394+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.402+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 37, 'season_id': 90, 'country_name': 'England', 'competition_name': "FA Women's Super League", 'competition_gender': 'female', 'competition_youth': False, 'competition_international': False, 'season_name': '2020/2021', 'match_updated': '2023-02-25T14:52:09.326729', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-02-25T14:52:09.326729'}
+[2025-05-05T10:46:52.406+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.411+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.418+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 37, 'season_id': 42, 'country_name': 'England', 'competition_name': "FA Women's Super League", 'competition_gender': 'female', 'competition_youth': False, 'competition_international': False, 'season_name': '2019/2020', 'match_updated': '2024-02-12T15:05:34.211400', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T15:05:34.211400'}
+[2025-05-05T10:46:52.421+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.424+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.432+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 37, 'season_id': 4, 'country_name': 'England', 'competition_name': "FA Women's Super League", 'competition_gender': 'female', 'competition_youth': False, 'competition_international': False, 'season_name': '2018/2019', 'match_updated': '2024-06-12T07:41:45.347457', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-06-12T07:41:45.347457'}
+[2025-05-05T10:46:52.437+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.442+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.448+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 1470, 'season_id': 274, 'country_name': 'International', 'competition_name': 'FIFA U20 World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1979', 'match_updated': '2024-02-13T14:20:59.825440', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:20:59.825440'}
+[2025-05-05T10:46:52.451+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.454+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.462+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 106, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '2022', 'match_updated': '2024-05-15T10:23:32.854925', 'match_updated_360': '2024-06-11T11:30:50.462448', 'match_available_360': '2024-06-11T11:30:50.462448', 'match_available': '2024-05-15T10:23:32.854925'}
+[2025-05-05T10:46:52.466+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.469+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.477+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 3, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '2018', 'match_updated': '2024-06-12T07:38:19.345758', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-06-12T07:38:19.345758'}
+[2025-05-05T10:46:52.480+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.484+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.492+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 55, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '1990', 'match_updated': '2023-06-28T10:58:20.137929', 'match_updated_360': '2021-06-12T16:17:31.694', 'match_available_360': None, 'match_available': '2023-06-28T10:58:20.137929'}
+[2025-05-05T10:46:52.497+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.501+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.511+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 54, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '1986', 'match_updated': '2023-12-26T22:34:04.263530', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-12-26T22:34:04.263530'}
+[2025-05-05T10:46:52.516+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.521+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.531+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 51, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '1974', 'match_updated': '2024-02-13T02:52:29.582599', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T02:52:29.582599'}
+[2025-05-05T10:46:52.536+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.541+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.550+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 272, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '1970', 'match_updated': '2024-02-13T14:23:06.735299', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:23:06.735299'}
+[2025-05-05T10:46:52.553+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.557+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.567+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 270, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '1962', 'match_updated': '2023-06-26T10:38:00.323984', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2023-06-26T10:38:00.323984'}
+[2025-05-05T10:46:52.572+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.577+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.586+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 43, 'season_id': 269, 'country_name': 'International', 'competition_name': 'FIFA World Cup', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '1958', 'match_updated': '2024-02-13T14:22:08.222297', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-13T14:22:08.222297'}
+[2025-05-05T10:46:52.589+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.592+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.599+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 1238, 'season_id': 108, 'country_name': 'India', 'competition_name': 'Indian Super league', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2021/2022', 'match_updated': '2024-02-12T17:41:31.729787', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-02-12T17:41:31.729787'}
+[2025-05-05T10:46:52.602+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.605+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.613+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 90, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2020/2021', 'match_updated': '2024-07-15T15:15:28.367546', 'match_updated_360': '2024-07-15T15:17:45.455234', 'match_available_360': '2024-07-15T15:17:45.455234', 'match_available': '2024-07-15T15:15:28.367546'}
+[2025-05-05T10:46:52.615+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.618+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.626+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 42, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2019/2020', 'match_updated': '2024-07-12T16:27:54.561817', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-07-12T16:27:54.561817'}
+[2025-05-05T10:46:52.628+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.632+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.640+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 4, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2018/2019', 'match_updated': '2024-06-12T07:42:36.910303', 'match_updated_360': '2021-07-09T14:53:22.103024', 'match_available_360': None, 'match_available': '2024-06-12T07:42:36.910303'}
+[2025-05-05T10:46:52.644+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.648+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.656+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 1, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2017/2018', 'match_updated': '2024-06-12T07:32:43.196678', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-06-12T07:32:43.196678'}
+[2025-05-05T10:46:52.659+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.662+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.669+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 2, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2016/2017', 'match_updated': '2024-03-12T08:49:46.449084', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-03-12T08:49:46.449084'}
+[2025-05-05T10:46:52.672+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.674+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.683+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 27, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2015/2016', 'match_updated': '2024-05-16T14:06:52.149840', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-05-16T14:06:52.149840'}
+[2025-05-05T10:46:52.686+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.689+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.696+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 26, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2014/2015', 'match_updated': '2023-09-20T17:22:28.925900', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-09-20T17:22:28.925900'}
+[2025-05-05T10:46:52.699+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.702+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.710+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 25, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2013/2014', 'match_updated': '2022-07-23T12:18:49.547396', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2022-07-23T12:18:49.547396'}
+[2025-05-05T10:46:52.712+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.714+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.721+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 24, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2012/2013', 'match_updated': '2024-03-10T11:24:05.201066', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-03-10T11:24:05.201066'}
+[2025-05-05T10:46:52.725+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.727+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.734+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 23, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2011/2012', 'match_updated': '2022-12-01T14:10:17.791769', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2022-12-01T14:10:17.791769'}
+[2025-05-05T10:46:52.737+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.740+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.747+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 22, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2010/2011', 'match_updated': '2023-04-19T10:48:44.079830', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-04-19T10:48:44.079830'}
+[2025-05-05T10:46:52.750+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.752+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.759+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 21, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2009/2010', 'match_updated': '2023-11-29T10:55:10.039117', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-11-29T10:55:10.039117'}
+[2025-05-05T10:46:52.762+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.764+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.771+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 41, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2008/2009', 'match_updated': '2023-04-19T10:46:29.203565', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-04-19T10:46:29.203565'}
+[2025-05-05T10:46:52.774+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.777+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.785+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 40, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2007/2008', 'match_updated': '2023-04-19T10:42:35.284291', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-04-19T10:42:35.284291'}
+[2025-05-05T10:46:52.788+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.791+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.798+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 39, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2006/2007', 'match_updated': '2023-03-26T23:19:39.125951', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-03-26T23:19:39.125951'}
+[2025-05-05T10:46:52.801+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.803+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.811+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 38, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2005/2006', 'match_updated': '2022-07-03T12:34:31.749038', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2022-07-03T12:34:31.749038'}
+[2025-05-05T10:46:52.814+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.817+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.825+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 37, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2004/2005', 'match_updated': '2023-11-29T10:56:10.031508', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-11-29T10:56:10.031508'}
+[2025-05-05T10:46:52.830+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.833+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.841+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 11, 'season_id': 278, 'country_name': 'Spain', 'competition_name': 'La Liga', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1973/1974', 'match_updated': '2023-07-06T12:50:48.807820', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2023-07-06T12:50:48.807820'}
+[2025-05-05T10:46:52.844+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.848+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.857+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 81, 'season_id': 48, 'country_name': 'Argentina', 'competition_name': 'Liga Profesional', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1997/1998', 'match_updated': '2023-06-28T11:19:54.593488', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2023-06-28T11:19:54.593488'}
+[2025-05-05T10:46:52.860+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.865+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.874+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 81, 'season_id': 275, 'country_name': 'Argentina', 'competition_name': 'Liga Profesional', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1981', 'match_updated': '2023-12-05T14:19:40.272816', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2023-12-05T14:19:40.272816'}
+[2025-05-05T10:46:52.876+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.879+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.888+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 7, 'season_id': 235, 'country_name': 'France', 'competition_name': 'Ligue 1', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2022/2023', 'match_updated': '2024-06-11T00:50:53.277411', 'match_updated_360': '2024-06-26T08:17:36.043856', 'match_available_360': '2024-06-26T08:17:36.043856', 'match_available': '2024-06-11T00:50:53.277411'}
+[2025-05-05T10:46:52.892+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.895+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.903+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 7, 'season_id': 108, 'country_name': 'France', 'competition_name': 'Ligue 1', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2021/2022', 'match_updated': '2024-06-03T16:46:00.665854', 'match_updated_360': '2024-06-03T16:49:55.355195', 'match_available_360': '2024-06-03T16:49:55.355195', 'match_available': '2024-06-03T16:46:00.665854'}
+[2025-05-05T10:46:52.908+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.911+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.919+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 7, 'season_id': 27, 'country_name': 'France', 'competition_name': 'Ligue 1', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2015/2016', 'match_updated': '2024-01-07T06:23:44.277971', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-01-07T06:23:44.277971'}
+[2025-05-05T10:46:52.921+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.925+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.932+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 44, 'season_id': 107, 'country_name': 'United States of America', 'competition_name': 'Major League Soccer', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2023', 'match_updated': '2024-07-14T18:53:28.735163', 'match_updated_360': '2024-07-14T18:58:42.974543', 'match_available_360': '2024-07-14T18:58:42.974543', 'match_available': '2024-07-14T18:53:28.735163'}
+[2025-05-05T10:46:52.935+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.938+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.947+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 116, 'season_id': 68, 'country_name': 'North and Central America', 'competition_name': 'North American League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1977', 'match_updated': '2024-02-12T14:20:24.769832', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T14:20:24.769832'}
+[2025-05-05T10:46:52.953+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.956+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.964+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 49, 'season_id': 3, 'country_name': 'United States of America', 'competition_name': 'NWSL', 'competition_gender': 'female', 'competition_youth': False, 'competition_international': False, 'season_name': '2018', 'match_updated': '2023-07-24T13:01:22.094587', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2023-07-24T13:01:22.094587'}
+[2025-05-05T10:46:52.967+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.969+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.978+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 2, 'season_id': 27, 'country_name': 'England', 'competition_name': 'Premier League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2015/2016', 'match_updated': '2024-06-12T07:43:56.243851', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-06-12T07:43:56.243851'}
+[2025-05-05T10:46:52.981+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.984+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:52.991+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 2, 'season_id': 44, 'country_name': 'England', 'competition_name': 'Premier League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2003/2004', 'match_updated': '2024-03-08T14:49:13.195793', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-03-08T14:49:13.195793'}
+[2025-05-05T10:46:52.994+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:52.999+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.007+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 12, 'season_id': 27, 'country_name': 'Italy', 'competition_name': 'Serie A', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '2015/2016', 'match_updated': '2024-06-25T23:56:11.910924', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2024-06-25T23:56:11.910924'}
+[2025-05-05T10:46:53.011+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.015+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.025+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 12, 'season_id': 86, 'country_name': 'Italy', 'competition_name': 'Serie A', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1986/1987', 'match_updated': '2023-06-18T01:55:53.343752', 'match_updated_360': None, 'match_available_360': None, 'match_available': '2023-06-18T01:55:53.343752'}
+[2025-05-05T10:46:53.028+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.032+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.040+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 55, 'season_id': 282, 'country_name': 'Europe', 'competition_name': 'UEFA Euro', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '2024', 'match_updated': '2024-07-15T15:48:50.315500', 'match_updated_360': '2024-07-15T15:52:24.778809', 'match_available_360': '2024-07-15T15:52:24.778809', 'match_available': '2024-07-15T15:48:50.315500'}
+[2025-05-05T10:46:53.043+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.046+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.056+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 55, 'season_id': 43, 'country_name': 'Europe', 'competition_name': 'UEFA Euro', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': True, 'season_name': '2020', 'match_updated': '2024-04-16T12:44:40.558402', 'match_updated_360': '2024-04-16T12:47:18.505110', 'match_available_360': '2024-04-16T12:47:18.505110', 'match_available': '2024-04-16T12:44:40.558402'}
+[2025-05-05T10:46:53.059+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.063+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.074+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 35, 'season_id': 75, 'country_name': 'Europe', 'competition_name': 'UEFA Europa League', 'competition_gender': 'male', 'competition_youth': False, 'competition_international': False, 'season_name': '1988/1989', 'match_updated': '2024-02-12T14:45:05.702250', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-12T14:45:05.702250'}
+[2025-05-05T10:46:53.081+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.085+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.094+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 53, 'season_id': 106, 'country_name': 'Europe', 'competition_name': "UEFA Women's Euro", 'competition_gender': 'female', 'competition_youth': False, 'competition_international': True, 'season_name': '2022', 'match_updated': '2024-02-13T13:27:17.178263', 'match_updated_360': '2024-02-13T13:30:52.820588', 'match_available_360': '2024-02-13T13:30:52.820588', 'match_available': '2024-02-13T13:27:17.178263'}
+[2025-05-05T10:46:53.097+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.101+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.109+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 72, 'season_id': 107, 'country_name': 'International', 'competition_name': "Women's World Cup", 'competition_gender': 'female', 'competition_youth': False, 'competition_international': True, 'season_name': '2023', 'match_updated': '2024-07-14T16:59:48.469596', 'match_updated_360': '2024-07-14T17:01:38.887279', 'match_available_360': '2024-07-14T17:01:38.887279', 'match_available': '2024-07-14T16:59:48.469596'}
+[2025-05-05T10:46:53.118+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.122+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:46:53.129+0000] {sql.py:418} INFO - Running statement: 
+            INSERT INTO competitions (
+                competition_id, season_id, competition_name, competition_gender,
+                country_name, season_name, match_updated, match_available
+            ) VALUES (
+                %(competition_id)s, %(season_id)s, %(competition_name)s, %(competition_gender)s,
+                %(country_name)s, %(season_name)s, %(match_updated)s, %(match_available)s
+            )
+            ON CONFLICT (competition_id, season_id) DO UPDATE SET
+                competition_name    = EXCLUDED.competition_name,
+                competition_gender  = EXCLUDED.competition_gender,
+                country_name        = EXCLUDED.country_name,
+                season_name         = EXCLUDED.season_name,
+                match_updated       = EXCLUDED.match_updated,
+                match_available     = EXCLUDED.match_available;
+            , parameters: {'competition_id': 72, 'season_id': 30, 'country_name': 'International', 'competition_name': "Women's World Cup", 'competition_gender': 'female', 'competition_youth': False, 'competition_international': True, 'season_name': '2019', 'match_updated': '2024-02-13T09:41:26.379767', 'match_updated_360': '2021-06-13T16:17:31.694', 'match_available_360': None, 'match_available': '2024-02-13T09:41:26.379767'}
+[2025-05-05T10:46:53.131+0000] {sql.py:427} INFO - Rows affected: 1
+[2025-05-05T10:46:53.134+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-05-05T10:46:53.148+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=statsbomb_load_postgres, task_id=upsert_competitions, execution_date=20250505T104640, start_date=20250505T104650, end_date=20250505T104653
+[2025-05-05T10:46:53.174+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-05-05T10:46:53.214+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

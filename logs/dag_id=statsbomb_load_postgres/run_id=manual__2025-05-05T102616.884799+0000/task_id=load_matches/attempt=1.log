@@ -1,0 +1,60 @@
+[2025-05-05T10:28:27.898+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_load_postgres/run_id=manual__2025-05-05T10:26:16.884799+00:00/task_id=load_matches permission to 509
+[2025-05-05T10:28:27.957+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_load_postgres/run_id=manual__2025-05-05T10:26:16.884799+00:00/task_id=load_matches permission to 509
+[2025-05-05T10:28:27.999+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: statsbomb_load_postgres.load_matches manual__2025-05-05T10:26:16.884799+00:00 [queued]>
+[2025-05-05T10:28:28.011+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: statsbomb_load_postgres.load_matches manual__2025-05-05T10:26:16.884799+00:00 [queued]>
+[2025-05-05T10:28:28.012+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 2
+[2025-05-05T10:28:28.029+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): load_matches> on 2025-05-05 10:26:16.884799+00:00
+[2025-05-05T10:28:28.034+0000] {standard_task_runner.py:57} INFO - Started process 507 to run task
+[2025-05-05T10:28:28.037+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'statsbomb_load_postgres', 'load_matches', 'manual__2025-05-05T10:26:16.884799+00:00', '--job-id', '67', '--raw', '--subdir', 'DAGS_FOLDER/load_to_postgres.py', '--cfg-path', '/tmp/tmpze73dhvy']
+[2025-05-05T10:28:28.041+0000] {standard_task_runner.py:85} INFO - Job 67: Subtask load_matches
+[2025-05-05T10:28:28.138+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=statsbomb_load_postgres/run_id=manual__2025-05-05T10:26:16.884799+00:00/task_id=load_matches permission to 509
+[2025-05-05T10:28:28.159+0000] {task_command.py:415} INFO - Running <TaskInstance: statsbomb_load_postgres.load_matches manual__2025-05-05T10:26:16.884799+00:00 [running]> on host 9374481500cf
+[2025-05-05T10:28:28.271+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='statsbomb_load_postgres' AIRFLOW_CTX_TASK_ID='load_matches' AIRFLOW_CTX_EXECUTION_DATE='2025-05-05T10:26:16.884799+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-05-05T10:26:16.884799+00:00'
+[2025-05-05T10:28:28.276+0000] {crypto.py:82} WARNING - empty cryptography key - values will not be stored encrypted.
+[2025-05-05T10:28:28.279+0000] {base.py:73} INFO - Using connection ID 'minio_default' for task execution.
+[2025-05-05T10:28:28.281+0000] {connection_wrapper.py:340} INFO - AWS Connection (conn_id='minio_default', conn_type='aws') credentials retrieved from login and password.
+[2025-05-05T10:28:35.627+0000] {base.py:73} INFO - Using connection ID 'postgres_default' for task execution.
+[2025-05-05T10:28:35.677+0000] {sql.py:418} INFO - Running statement: 
+                INSERT INTO matches (
+                    match_id, competition_id, season_id, match_date, kick_off,
+                    stadium_id, stadium_name, stadium_country,
+                    referee_id, referee_name, referee_country,
+                    home_team_id, home_team_name, home_team_gender,
+                    away_team_id, away_team_name, away_team_gender,
+                    home_score, away_score, match_status, match_week,
+                    competition_stage_id, competition_stage_name, last_updated, metadata
+                ) VALUES (
+                    %(match_id)s, %(competition_id)s, %(season_id)s, %(match_date)s, %(kick_off)s,
+                    %(stadium_id)s, %(stadium_name)s, %(stadium_country)s,
+                    %(referee_id)s, %(referee_name)s, %(referee_country)s,
+                    %(home_team_id)s, %(home_team_name)s, %(home_team_gender)s,
+                    %(away_team_id)s, %(away_team_name)s, %(away_team_gender)s,
+                    %(home_score)s, %(away_score)s, %(match_status)s, %(match_week)s,
+                    %(competition_stage_id)s, %(competition_stage_name)s, %(last_updated)s, %(metadata)s
+                )
+                ON CONFLICT (match_id) DO UPDATE SET
+                    home_score   = EXCLUDED.home_score,
+                    away_score   = EXCLUDED.away_score,
+                    last_updated = EXCLUDED.last_updated;
+                , parameters: {'match_id': 9880, 'competition_id': None, 'season_id': None, 'match_date': '2018-04-14', 'kick_off': '16:15:00.000', 'stadium_id': 342, 'stadium_name': 'Spotify Camp Nou', 'stadium_country': None, 'referee_id': 2728, 'referee_name': 'Carlos del Cerro Grande', 'referee_country': None, 'home_team_id': None, 'home_team_name': None, 'home_team_gender': None, 'away_team_id': None, 'away_team_name': None, 'away_team_gender': None, 'home_score': 2, 'away_score': 1, 'match_status': 'available', 'match_week': 32, 'competition_stage_id': 1, 'competition_stage_name': 'Regular Season', 'last_updated': '2023-02-08T17:23:53.901920', 'metadata': '{"data_version": "1.1.0", "shot_fidelity_version": "2", "xy_fidelity_version": "2"}'}
+[2025-05-05T10:28:35.690+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/load_to_postgres.py", line 87, in load_matches
+    hook_pg.run(
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 392, in run
+    self._run_command(cur, sql_statement, parameters)
+  File "/home/airflow/.local/lib/python3.8/site-packages/airflow/providers/common/sql/hooks/sql.py", line 421, in _run_command
+    cur.execute(sql_statement, parameters)
+psycopg2.errors.NotNullViolation: null value in column "competition_id" of relation "matches" violates not-null constraint
+DETAIL:  Failing row contains (9880, null, null, 2018-04-14, 16:15:00, 342, Spotify Camp Nou, null, 2728, Carlos del Cerro Grande, null, null, null, null, null, null, null, 2, 1, available, 32, 1, Regular Season, 2023-02-08 17:23:53.90192, {"data_version": "1.1.0", "xy_fidelity_version": "2", "shot_fide...).
+
+[2025-05-05T10:28:35.723+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=statsbomb_load_postgres, task_id=load_matches, execution_date=20250505T102616, start_date=20250505T102828, end_date=20250505T102835
+[2025-05-05T10:28:35.748+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 67 for task load_matches (null value in column "competition_id" of relation "matches" violates not-null constraint
+DETAIL:  Failing row contains (9880, null, null, 2018-04-14, 16:15:00, 342, Spotify Camp Nou, null, 2728, Carlos del Cerro Grande, null, null, null, null, null, null, null, 2, 1, available, 32, 1, Regular Season, 2023-02-08 17:23:53.90192, {"data_version": "1.1.0", "xy_fidelity_version": "2", "shot_fide...).
+; 507)
+[2025-05-05T10:28:35.772+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-05-05T10:28:35.811+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

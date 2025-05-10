@@ -1,0 +1,120 @@
+version: 2
+
+models:
+  - name: stg_matches
+    description: "Staging des matches Champions League"
+    columns:
+      - name: match_id
+        description: "Identifiant unique du match"
+      - name: competition_id
+        description: "Identifiant de la compétition"
+      - name: season_id
+        description: "Identifiant de la saison"
+      - name: match_date
+        description: "Date du match"
+      - name: kick_off
+        description: "Horodatage du coup d'envoi"
+      - name: stadium_id
+        description: "Identifiant du stade"
+      - name: stadium_name
+        description: "Nom du stade"
+      - name: stadium_country
+        description: "Pays du stade"
+      - name: referee_id
+        description: "Identifiant de l'arbitre"
+      - name: referee_name
+        description: "Nom de l'arbitre"
+      - name: referee_country
+        description: "Pays de l'arbitre"
+      - name: home_team_id
+        description: "Identifiant de l'équipe à domicile"
+      - name: home_team_name
+        description: "Nom de l'équipe à domicile"
+      - name: home_team_gender
+        description: "Genre de l'équipe à domicile"
+      - name: away_team_id
+        description: "Identifiant de l'équipe visiteuse"
+      - name: away_team_name
+        description: "Nom de l'équipe visiteuse"
+      - name: away_team_gender
+        description: "Genre de l'équipe visiteuse"
+      - name: home_score
+        description: "Score de l'équipe à domicile"
+      - name: away_score
+        description: "Score de l'équipe visiteuse"
+      - name: match_status
+        description: "Statut du match (Finished, In Progress…)"
+      - name: match_week
+        description: "Journée ou numéro de week du match"
+      - name: competition_stage_id
+        description: "Identifiant de la phase de compétition"
+      - name: competition_stage_name
+        description: "Nom de la phase de compétition"
+      - name: last_updated
+        description: "Date de dernière mise à jour des données du match"
+      - name: metadata
+        description: "Bloc JSON brut de métadonnées complémentaires"
+
+  - name: stg_lineups
+    description: "Staging des compositions d’équipe"
+    columns:
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Identifiant de l’équipe"
+      - name: player_id
+        description: "Identifiant du joueur"
+      - name: player_name
+        description: "Nom du joueur"
+      - name: player_nickname
+        description: "Surnom du joueur (le cas échéant)"
+      - name: jersey_number
+        description: "Numéro du maillot"
+      - name: country_id
+        description: "Identifiant du pays du joueur"
+      - name: country_name
+        description: "Nom du pays du joueur"
+
+  - name: stg_events
+    description: "Staging des évènements de match"
+    columns:
+      - name: event_id
+        description: "Identifiant unique de l’événement"
+      - name: match_id
+        description: "Identifiant du match associé"
+      - name: period
+        description: "Période du match (1=mi-temps 1, 2=mi-temps 2…)"
+      - name: timestamp
+        description: "Horodatage de l’événement dans le match"
+      - name: team_id
+        description: "Identifiant de l’équipe réalisant l’action"
+      - name: team_name
+        description: "Nom de l’équipe réalisant l’action"
+      - name: player_id
+        description: "Identifiant du joueur"
+      - name: player_name
+        description: "Nom du joueur"
+      - name: position_id
+        description: "Identifiant du poste du joueur"
+      - name: position_name
+        description: "Nom du poste du joueur"
+      - name: location_x
+        description: "Coordonnée X de l’action sur le terrain"
+      - name: location_y
+        description: "Coordonnée Y de l’action sur le terrain"
+      - name: duration
+        description: "Durée de l’événement (en secondes)"
+      - name: under_pressure
+        description: "Indique si le joueur était sous pression"
+      - name: off_camera
+        description: "Indique si l’action était hors caméra"
+      - name: play_pattern_id
+        description: "Identifiant du type de jeu"
+      - name: play_pattern_name
+        description: "Nom du type de jeu"
+      - name: related_events
+        description: "JSON listant les événements liés"
+      - name: event_type
+        description: "Type d’événement (pass, shot, foul…)"
+      - name: event_details
+        description: "JSON des autres attributs détaillés de l’événement"

@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: dim_competition
+    description: "Dimension des compétitions"
+    columns:
+      - name: competition_id
+        description: "Identifiant unique de la compétition"
+      - name: season_id
+        description: "Identifiant de la saison"
+      - name: competition_name
+        description: "Nom de la compétition"
+      - name: competition_gender
+        description: "Genre de la compétition"
+      - name: country_name
+        description: "Pays ou région"
+      - name: season_name
+        description: "Libellé de la saison"
+
+  - name: dim_team
+    description: "Dimension des équipes"
+    columns:
+      - name: team_id
+        description: "Identifiant unique de l’équipe"
+      - name: team_name
+        description: "Nom de l’équipe"
+
+  - name: dim_player
+    description: "Dimension des joueurs"
+    columns:
+      - name: player_id
+        description: "Identifiant unique du joueur"
+      - name: player_name
+        description: "Nom du joueur"
+
+  - name: dim_date
+    description: "Dimension temps"
+    columns:
+      - name: date
+        description: "Date (YYYY-MM-DD)"
+      - name: year
+        description: "Année"
+      - name: month
+        description: "Mois (1–12)"
+      - name: day
+        description: "Jour du mois"
+      - name: quarter
+        description: "Trimestre (1–4)"
+      - name: day_of_year
+        description: "Jour de l’année (1–365/366)"
+      - name: day_of_week
+        description: "Jour ISO de la semaine (1=Lundi…7=Dimanche)"
+
+  - name: fact_event
+    description: "Table de fait des événements de match"
+    columns:
+      - name: event_id
+        description: "Identifiant unique de l’événement"
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Clé vers dim_team"
+      - name: player_id
+        description: "Clé vers dim_player"
+      - name: event_timestamp
+        description: "Horodatage de l’événement"
+      - name: date
+        description: "Clé vers dim_date"
+      - name: period
+        description: "Période du match"
+      - name: minute
+        description: "Minute de l’événement"
+      - name: second
+        description: "Seconde de l’événement"
+      - name: event_type
+        description: "Type d’événement"
+      - name: event_subtype
+        description: "Sous-type d’événement"
