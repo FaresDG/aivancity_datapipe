@@ -1,0 +1,467 @@
+Ce projet met en place une base pour un pipeline de données “end-to-end” (ETL/ELT), tel que défini dans le cahier des charges du cours MSc DE2 Data Pipeline . Il est aujourd’hui partiellement implémenté : la couche d’ingestion (Dump vers OSS + chargement dans PostgreSQL) fonctionne, tandis que les étapes « Data Catalog », « DBT » et « Superset » restent à réaliser. Ce README décrit :
+
+L’objectif global du projet
+
+État actuel (composants en place)
+
+Prérequis et installation des composants existants
+
+Description de l’arborescence du dépôt
+
+Comment lancer la partie ingestion / chargement (PostgreSQL)
+
+Fonctionnalités manquantes & prochaines étapes
+
+1. Objectif général
+D’après le cahier des charges, le pipeline doit :
+
+Extraire les données brutes depuis au moins une source (ici : StatsBomb Open Data).
+
+Stocker ces fichiers bruts dans un Object Storage Service (MinIO), sans écraser les versions précédentes : à chaque exécution, on vérifie si le contenu a changé (SHA256) et on ajoute un nouveau fichier horodaté si nécessaire.
+
+Charger ces objets depuis MinIO dans une table brute (raw) dans un Data Warehouse (PostgreSQL).
+
+Transformer (avec DBT) ce raw en tables de staging et, ensuite, en tables « mart » plus normalisées, munies de tests créatifs (au-delà de not_null ou unique) et de documentation (doc blocks).
+
+Publier les métadonnées (descriptions, tags, glossaire) dans un Data Catalog (par exemple OpenMetadata ou DataHub).
+
+Visualiser des KPI via un outil BI (Metabase, Superset, etc.). Les KPI suggérés pour StatsBomb incluent : Passing Accuracy, Possession, Shot Conversion Rate, Defensive Actions, Player Involvement .
+
+Important : Dans cette version du dépôt, seules les tâches d’extraction (étape 1), de stockage OSS (MinIO) et de chargement brut (étape 3) sont implémentées. Les étapes “DBT”, “Data Catalog” et “Superset” sont pour l’instant à compléter.
+
+2. État actuel du projet
+Extraction / Ingestion :
+
+Les scripts (Airflow DAGs) permettant de télécharger les JSON StatsBomb et de les uploader dans MinIO sont en place.
+
+À chaque exécution, le script calcule le hash SHA256 du fichier, compare avec l’existant dans MinIO, et ne crée une nouvelle version que si le contenu diffère (conformément à l’Étape 1 du cahier des charges ).
+
+Stockage objet (OSS) :
+
+MinIO est configuré dans docker-compose.yml. Les buckets sont créés automatiquement par le DAG init_minio.py.
+
+Les JSON bruts sont stockés sous statsbomb/raw/<competition>/<season>/<nom_fichier>_<timestamp>.json.
+
+Chargement dans PostgreSQL (Data Warehouse) :
+
+Un DAG Airflow lit les fichiers depuis MinIO et “upsert” dans la table raw.statsbomb_events.
+
+L’utilisateur a déjà pu peupler PostgreSQL en local (table raw.statsbomb_events peuplée), ce qui confirme que l’étape 2 et 3 fonctionnent.
+
+DBT, Data Catalog, Superset :
+
+DBT (dossiers dbt_profiles/ + statsbomb_dbt/) contient la configuration et quelques modèles, mais ils ne sont pas entièrement développés (modèles de staging et mart incomplets).
+
+Data Catalog (par exemple OpenMetadata) n’est pas encore intégré : aucun script d’ingestion DBT → catalogue n’existe pour le moment.
+
+Superset (dossier superset/) contient seulement la configuration initiale ; aucun dashboard JSON (“KPI StatsBomb”) n’a encore été importé/créé.
+
+Bilan : la partie “ingestion brute” est opérationnelle. Il reste à implémenter :
+
+l’étape DBT (transformations + tests + documentation) ;
+
+la publication des métadonnées vers un Data Catalog ;
+
+la création/importation de dashboards Superset.
+
+3. Prérequis et installation des composants existants
+Ces instructions permettent de lancer, en local, les services qui sont déjà configurés : MinIO, PostgreSQL, Airflow (uniquement la partie ingestion/chargement). Les étapes DBT/Datacatalog/Superset sont décrites plus loin, mais elles ne sont pas encore codées.
+
+3.1. Prérequis système
+Docker (≥ 20.10)
+
+Docker Compose (≥ 1.29)
+
+Au moins 8 Go de RAM alloués à Docker
+
+Un client SQL (ex. DBeaver, pgAdmin, ou psql)
+
+Un terminal bash (Mac / Linux / Git Bash sur Windows)
+
+3.2. Cloner le dépôt
+bash
+Copier
+Modifier
+git clone https://github.com/FaresDG/aivancity_datapipe.git
+cd aivancity_datapipe
+3.3. Variables d’environnement
+Créez (ou copiez) un fichier .env à la racine, avec le contenu suivant :
+
+dotenv
+Copier
+Modifier
+# PostgreSQL
+POSTGRES_USER=airflow
+POSTGRES_PASSWORD=airflow
+POSTGRES_DB=airflow
+POSTGRES_PORT=5432
+
+# MinIO (OSS)
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+
+# Airflow (points uniquement à PostgreSQL pour l’instant)
+AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+AIRFLOW__CORE__LOAD_EXAMPLES=False
+AIRFLOW__CORE__EXECUTOR=LocalExecutor
+AIRFLOW__CORE__FERNET_KEY=<générez une clé Fernet>
+AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+Générer une clé Fernet :
+
+bash
+Copier
+Modifier
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+3.4. Lancer les services Docker
+Depuis la racine du dépôt :
+
+bash
+Copier
+Modifier
+docker-compose up --build -d
+Les conteneurs démarrent :
+
+postgres :
+
+Image : postgres:13
+
+Base airflow (utilisateur airflow / mot de passe airflow)
+
+Expose le port 5432 vers l’hôte (${POSTGRES_PORT}:5432).
+
+minio :
+
+Image : quay.io/minio/minio:latest
+
+Compte root : minioadmin / minioadmin
+
+Expose le port 9000 vers l’hôte.
+
+airflow :
+
+Construit via Dockerfile-airflow (installe Airflow + dépendances)
+
+Monte le dossier dags/ en /opt/airflow/dags
+
+Dépend de postgres et minio
+
+Expose le port 8080 vers l’hôte (Airflow Web UI)
+
+Note : à ce stade, Airflow n’est pas configuré pour DBT, Data Catalog ou Superset. Seuls les DAGs liés à MinIO & PostgreSQL sont actifs.
+
+3.5. Initialiser Airflow
+Connectez-vous au conteneur Airflow :
+
+bash
+Copier
+Modifier
+docker exec -it airflow bash
+Initialiser la base Airflow (si c’est la première exécution) :
+
+bash
+Copier
+Modifier
+airflow db init
+airflow users create \
+  --username admin \
+  --firstname Admin --lastname User \
+  --role Admin \
+  --email admin@local \
+  --password admin
+exit
+Dans l’UI Airflow (http://localhost:8080), connectez-vous avec admin/admin.
+
+3.6. Créer les Connexions et Variables Airflow
+Connexions
+Dans l’UI Airflow → Admin → Connections :
+
+postgres_default (type Postgres)
+
+Host : postgres
+
+Port : 5432
+
+Schema : raw (ou airflow)
+
+Login : airflow
+
+Password : airflow
+
+minio_default (type S3)
+
+Connexion S3 (pour MinIO) :
+
+Host : minio:9000
+
+Login : ${MINIO_ROOT_USER}
+
+Password : ${MINIO_ROOT_PASSWORD}
+
+Extra (JSON) :
+
+json
+Copier
+Modifier
+{
+  "aws_signature_version": "s3v4",
+  "endpoint_url": "http://minio:9000"
+}
+Variables
+Dans l’UI Airflow → Admin → Variables :
+
+COMPETITIONS : liste des IDs de compétitions (ex. [11,12])
+
+SEASONS : liste des saisons (ex. [2022,2023])
+
+MINIO_BUCKET : statsbomb
+
+Ces variables sont utilisées par le DAG d’extraction pour savoir quelles compétitions et saisons traiter.
+
+4. Structure du dépôt
+plaintext
+Copier
+Modifier
+aivancity_datapipe/
+├─ dags/
+│   ├─ init_minio.py        # Crée le bucket MinIO “statsbomb”
+│   ├─ extract_statsbomb.py # Téléchargement et upload vers MinIO
+│   ├─ load_raw.py          # Chargement depuis MinIO → PostgreSQL (schéma raw)
+│   └─ run_dbt.py           # (en théorie) exécuterait DBT (pour l’instant partiellement codé)
+│
+├─ dbt_profiles/
+│   └─ profiles.yml         # Configuration de connexion DBT (Postgres)
+│
+├─ statsbomb_dbt/
+│   ├─ models/              # Modèles DBT (incomplets) pour staging et mart
+│   │   ├─ staging/
+│   │   │   ├─ stg_events.sql
+│   │   │   ├─ stg_matches.sql
+│   │   │   └─ stg_players.sql
+│   │   └─ mart/
+│   │       ├─ team_metrics.sql
+│   │       └─ player_metrics.sql
+│   └─ dbt_project.yml      # Fichier de configuration DBT
+│
+├─ superset/
+│   ├─ dashboards/          # (vide) dossiers prévus pour JSON de dashboards
+│   └─ superset_config.py   # Fichier de config Superset (vide pour l’instant)
+│
+├─ .gitignore
+├─ docker-compose.yml
+├─ Dockerfile-airflow
+├─ requirements.txt
+└─ README.md               # (c’est ce fichier)
+Remarque :
+
+Les DAGs init_minio.py, extract_statsbomb.py et load_raw.py sont opérationnels et implantent l’étape 1, 2 et 3 décrites dans le cahier des charges .
+
+Le fichier run_dbt.py existe, mais les modèles DBT ne sont pas encore finalisés (la logique DBT sera à compléter).
+
+Les dossiers superset/dashboards et superset/superset_config.py sont prêts à recevoir la configuration/dashboards, mais rien n’y est encore défini.
+
+5. Lancer la partie « Ingestion → Chargement Postgres »
+5.1. Vérifier le bucket MinIO
+Une fois les conteneurs démarrés, exécutez le DAG init_minio dans l’UI d’Airflow (ou attendez qu’il se lance automatiquement).
+
+Il crée le bucket statsbomb dans MinIO (http://localhost:9000).
+
+Vous pouvez vérifier directement dans l’UI MinIO (identifiants minioadmin / minioadmin) que le bucket existe.
+
+5.2. Exécuter le DAG d’extraction
+Dans l’UI Airflow, activez le DAG extract_statsbomb.
+
+Le DAG se charge de :
+
+Récupérer les variables COMPETITIONS et SEASONS (définies en Variables Airflow).
+
+Télécharger, pour chaque combinaison (compétition, saison), les fichiers JSON StatsBomb.
+
+Calculer le SHA256 de chaque fichier, comparer avec ceux déjà présents dans MinIO.
+
+Si le contenu est différent, uploader sous statsbomb/raw/<competition>/<season>/<fichier>_<timestamp>.json.
+
+Sinon, ignorer (pas de duplicata).
+
+5.3. Charger les données brutes dans PostgreSQL
+Activez le DAG load_raw :
+
+Il lit les objets depuis statsbomb/raw/... dans MinIO.
+
+Insère (upsert) chaque événement dans la table raw.statsbomb_events de PostgreSQL.
+
+Cette table a pour schéma initial (au moins) :
+
+sql
+Copier
+Modifier
+CREATE TABLE IF NOT EXISTS raw.statsbomb_events (
+  id              BIGINT PRIMARY KEY,
+  match_id        BIGINT,
+  event_type      TEXT,
+  player_id       BIGINT,
+  team_id         BIGINT,
+  timestamp       TIMESTAMP, -- selon format JSON
+  # … autres colonnes brutes …
+  ingestion_date  TIMESTAMP DEFAULT now()
+);
+Vous pouvez vérifier le contenu sous :
+
+bash
+Copier
+Modifier
+docker exec -it airflow psql -U airflow -d airflow -c "SELECT COUNT(*) FROM raw.statsbomb_events;"
+ou via un client SQL (DBeaver, pgAdmin, etc.) sur localhost:5432 (user : airflow / pass : airflow).
+
+Statut actuel : vous indiquez que vous avez déjà peuplé PostgreSQL localement, donc l’étape 3 est validée.
+
+6. Fonctionnalités manquantes & prochaines étapes
+Les étapes suivantes, comme prévues par le cahier des charges, ne sont pas encore implémentées dans ce dépôt. Elles sont listées ici pour guider le travail à venir :
+
+6.1. DBT (Transformation)
+dbt_profiles/profiles.yml contient la connexion à PostgreSQL (schéma raw par défaut).
+
+statsbomb_dbt/ préfigure :
+
+models/staging/ avec stg_events.sql, stg_matches.sql, stg_players.sql :
+
+Nettoyage et typage des données brutes.
+
+Ajout de doc blocks pour chaque colonne (description + tests).
+
+models/mart/ avec team_metrics.sql, player_metrics.sql :
+
+Agrégation des stats (Passing Accuracy, Possession, etc.).
+
+À compléter :
+
+Finaliser chaque modèle en s’appuyant sur la table raw.statsbomb_events.
+
+Ajouter des tests créatifs (par exemple : tester qu’aucune équipe n’a une possession > 100 %, ou des ratios hors bornes).
+
+Mettre à jour dbt_project.yml pour cibler les schémas staging et mart.
+
+(Optionnel) Charger également d’autres sources (Airbnb, Amazon Reviews, AdventureWorks) si vous souhaitez un démo multi-sources.
+
+6.2. Data Catalog (OpenMetadata / DataHub / autre)
+Le cahier des charges recommande d’utiliser un catalogue open-source (OpenMetadata, DataHub, Amundsen, etc.) Final Project - MSc DE2….
+
+À prévoir :
+
+Installer/configurer OpenMetadata (ou DataHub) dans Docker Compose.
+
+Écrire un script Airflow (publish_metadata.py) ou utiliser openmetadata-ingestion pour extraire les descriptions / tests DBT (dbt docs generate --export catalog.json) et les pousser dans le catalogue.
+
+Créer des glossaires (Passing Accuracy, Possession, etc.) et taguer les tables (staging, mart) via l’API du catalogue.
+
+6.3. Superset (Visualisation)
+Le dossier superset/ contient :
+
+superset_config.py (pour personnaliser Superset).
+
+Un sous-dossier dashboards/ prévu pour stocker des JSON d’export (ex. kpi_statsbomb.json).
+
+À implémenter :
+
+Créer des dashboards Superset (via l’UI) basés sur les tables mart.team_metrics, mart.player_metrics, etc.
+
+Exporter ces dashboards au format JSON (ex. superset export-dashboards --dashboard-id <id> > superset/dashboards/kpi_statsbomb.json).
+
+Écrire (ou compléter) dans Airflow un DAG init_superset.py qui, après DBT, lance superset import-dashboards --path /app/superset/dashboards/kpi_statsbomb.json.
+
+Documenter l’accès :
+
+URL : http://localhost:8088 (identifiants à définir, ex. admin:admin)
+
+Créer la(s) connection(s) à PostgreSQL (schémas staging, mart).
+
+Vérifier que tous les charts/graphes s’affichent.
+
+Remarque : Tant que ces étapes ne sont pas codées, il n’y a pas de dashboards disponibles en local.
+
+7. Comment contribuer / poursuivre le développement
+Étendre la couche DBT
+
+Compléter chaque fichier .sql dans statsbomb_dbt/models/ pour qu’il lise la table raw.statsbomb_events et crée un schéma en étoile minimal (dimensions : team, player, faits : events, etc.).
+
+Ajouter des tests (schema.yml) avec du contenu business (ex. ratio de possession, validité des timestamps).
+
+Vérifier que dbt run et dbt test s’exécutent sans erreur depuis le conteneur Airflow.
+
+Implémenter la publication dans le Data Catalog
+
+Ajouter un service OpenMetadata (ou DataHub) dans docker-compose.yml.
+
+Installer la librairie openmetadata-ingestion (ou équivalent).
+
+Développer un DAG Airflow publish_metadata.py qui lit statsbomb_dbt/target/catalog.json (généré par dbt docs generate --export catalog.json) et crée/ met à jour :
+
+Les entités tables/colonnes avec leurs descriptions.
+
+Les tags staging, mart, statsbomb.
+
+Les termes de glossaire (Passing Accuracy, etc.).
+
+Créer et importer les dashboards Superset
+
+Construire, via l’UI Superset, un dashboard “StatsBomb KPIs” (ou plusieurs) reposant sur les modèles DBT finalisés.
+
+Exporter au format JSON dans superset/dashboards/.
+
+Écrire un DAG init_superset.py pour importer automatiquement ces dashboards dès que DBT a achevé sa tâche.
+
+Pousser les modifications et tester en local (docker-compose down && docker-compose up --build -d).
+
+Documenter le modèle de données
+
+Ajouter un schéma visuel (PNG ou PDF) du schéma relationnel généré par DBT (avec PK/FK), dans un sous-dossier docs/.
+
+Mettre à jour ce README pour pointer vers ce schéma (Markdown).
+
+8. Récapitulatif des commandes utiles
+bash
+Copier
+Modifier
+# Démarrer tous les services (Postgres, MinIO, Airflow)
+docker-compose up --build -d
+
+# Initialiser Airflow (une seule fois)
+docker exec -it airflow bash
+airflow db init
+airflow users create \
+  --username admin --firstname Admin --lastname User \
+  --role Admin \
+  --email admin@local \
+  --password admin
+exit
+
+# Lancer manuellement les DAGs depuis l’UI Airflow (http://localhost:8080)
+#   - init_minio
+#   - extract_statsbomb
+#   - load_raw
+
+# Vérifier le contenu de la table raw.statsbomb_events
+docker exec -it airflow psql -U airflow -d airflow -c "SELECT COUNT(*) FROM raw.statsbomb_events;"
+
+# (À venir) DBT
+# docker exec -it airflow bash
+# cd statsbomb_dbt
+# dbt deps
+# dbt run
+# dbt test
+# dbt docs generate --export catalog.json
+
+# (À venir) Publication métadonnées
+#   Ex. python publish_metadata.py
+
+# (À venir) Superset
+#   Initialiser Superset puis importer les dashboards JSON
+#   superset import-dashboards --path /app/superset/dashboards/kpi_statsbomb.json
+9. Conclusion
+Ce repository correspond à un projet en cours : la partie d’extraction/chargement brute (MinIO → PostgreSQL) est fonctionnelle, comme voulu par le cahier des charges Final Project - MSc DE2….
+Les étapes DBT, Data Catalog et Superset restent à développer :
+
+DBT : finalisation des modèles, tests avancés, et documentation.
+
+Data Catalog : intégrer OpenMetadata (ou équivalent), synchroniser les métadonnées DBT.
+
+Superset : construire des dashboards KPI et automatiser leur import.
