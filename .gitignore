@@ -28,3 +28,5 @@ superset_config.py
 # IDE
 .idea/
 .vscode/
+# Ignorer tous les fichiers de log
+logs/
