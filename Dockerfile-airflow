@@ -1,17 +1,21 @@
+# Dockerfile-airflow
+########################################################
+#   On part de l’image officielle Apache Airflow 2.7.1 #
+#   python 3.10                              #
+########################################################
+
 ARG AIRFLOW_IMAGE=apache/airflow:2.7.1-python3.10
 FROM ${AIRFLOW_IMAGE}
 
-# Passe en root pour installer d'éventuels paquets système (exemple libpq-dev)
-USER root
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Repassage en airflow pour pip install (conseillé par la doc)
+# Exécuter en tant qu’utilisateur airflow pour installer les providers
 USER airflow
+
 RUN pip install --no-cache-dir \
     apache-airflow-providers-amazon \
     apache-airflow-providers-postgres
 
-# On reste en airflow pour exécuter Airflow
+# On reste user 'airflow' pour que le container n’exécute pas Airflow en root
 USER airflow
+
+# Par défaut, l’image de base expose déjà les commandes airflow
+# On n’a plus besoin de CMD ni d’ENTRYPOINT ici

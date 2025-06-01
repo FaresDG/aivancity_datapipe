@@ -2,6 +2,7 @@
 
 import json
 import logging
+import time                          # <--- correction ici (au lieu de "from time")
 from datetime import timedelta
 
 from airflow import DAG
@@ -197,9 +198,6 @@ def load_matches():
         )
 
 
-
-
-
 def load_lineups():
     s3 = S3Hook("minio_default")
     pg = PostgresHook("postgres_default")
@@ -265,156 +263,239 @@ def load_lineups():
         logging.info("No new lineups to insert.")
 
 
-
-
-from time import sleep
-from botocore.exceptions import EndpointConnectionError
-
 def load_events():
     s3 = S3Hook("minio_default")
     pg = PostgresHook("postgres_default")
 
-    # 1) IDs de matchs valides
-    existing = pg.get_records("SELECT match_id FROM matches")
-    valid_ids = {r[0] for r in existing}
+    # 1) Récupérer la liste des match_id valides en base
+    existing_matches = pg.get_records("SELECT match_id FROM matches")
+    valid_ids = {r[0] for r in existing_matches}
     logging.info("Events: %d valid match IDs", len(valid_ids))
 
-    # 2) Lister les fichiers S3
+    # 2) Lister toutes les clés S3 sous le préfixe "events/"
     keys = s3.list_keys(bucket_name=BUCKET, prefix="events/") or []
     logging.info("Found %d event files in bucket", len(keys))
 
-    batch = []
-    for i, key in enumerate(keys, 1):
-        if i % 500 == 0:
-            logging.info("Processed %d/%d event files…", i, len(keys))
+    # 3) Découper la liste de clés en sous-listes de 500 fichiers chacune
+    chunk_size = 200
+    chunks = [keys[i: i + chunk_size] for i in range(0, len(keys), chunk_size)]
 
-        # --- Retry de lecture S3 ---
-        raw = None
-        for attempt in range(1, 4):
+    for chunk_index, chunk in enumerate(chunks, start=1):
+        logging.info("Processing chunk %d/%d (files %d)", chunk_index, len(chunks), len(chunk))
+        batch = []
+
+        for i, key in enumerate(chunk, start=1):
+            # Tous les 100 fichiers, on affiche un log de progression
+            if i % 100 == 0:
+                logging.info(
+                    "Chunk %d/%d — processed %d/%d files…",
+                    chunk_index, len(chunks), i, len(chunk),
+                )
+
+            # Lecture du contenu JSON dans MinIO
             try:
                 raw = s3.read_key(key=key, bucket_name=BUCKET)
-                break
-            except EndpointConnectionError as e:
-                logging.warning(f"[{key}] Attempt {attempt}/3 failed: {e}")
-                sleep(5)
-        if raw is None:
-            logging.error(f"[{key}] Skipping after 3 failed attempts")
-            continue
-        # --------------------------------
-
-        arr = json.loads(raw)
-        file_mid = int(key.split("/")[-1].replace(".json", ""))
-
-        for ev in arr:
-            mid = ev.get("match_id") or file_mid
-            if mid not in valid_ids:
+            except Exception as e:
+                logging.warning(f"Impossible de lire '{key}' depuis MinIO : {e}. J’ignore ce fichier.")
                 continue
 
-            # flags et champs de base
-            is_out      = ev.get("pass", {}).get("outcome", {}).get("name") == "Out"
-            minute      = ev.get("minute")
-            second      = ev.get("second")
-            possession  = ev.get("possession")
-            poss_team   = ev.get("possession_team", {}) 
-            play_pattern= ev.get("play_pattern", {})
+            # Parser le JSON
+            try:
+                arr = json.loads(raw)
+            except Exception as e:
+                logging.warning(f"Erreur JSON pour '{key}' : {e}. J’ignore ce fichier.")
+                continue
 
-            # localisation
-            loc = ev.get("location") or [None, None]
+            # Extraire le match_id depuis le nom de fichier si besoin
+            file_mid = int(key.split("/")[-1].replace(".json", ""))
 
-            # détails de la passe (si présent)
-            pst            = ev.get("pass", {})
-            pass_recipient = pst.get("recipient", {})
-            pass_end_loc   = pst.get("end_location") or [None, None]
+            # Parcourir chaque événement dans le fichier
+            for ev in arr:
+                mid = ev.get("match_id") or file_mid
+                if mid not in valid_ids:
+                    continue
 
-            # détails du tir (si présent)
-            sht          = ev.get("shot", {})
-            shot_end_loc = sht.get("end_location") or [None, None]
+                # ---------- Création des champs à insérer ----------
 
-            # métadonnées additionnelles
-            related = ev.get("related_events", [])
-            details = {
-                k: v for k, v in ev.items()
-                if k not in [
-                    "id","match_id","period","timestamp","minute","second",
-                    "team","possession_team","play_pattern","player","position",
-                    "location","duration","under_pressure","off_camera",
-                    "pass","shot","related_events","type"
-                ]
-            }
+                # 1) Flags et métadonnées de base
+                is_out = ev.get("pass", {}).get("outcome", {}).get("name") == "Out"
+                minute = ev.get("minute")
+                second = ev.get("second")
 
-            batch.append((
-                # clés
-                ev.get("id"), mid, ev.get("period"), ev.get("timestamp"),
-                minute, second,
+                # 2) Possession
+                possession = ev.get("possession")
+                poss_team = ev.get("possession_team", {}) or {}
 
-                # équipe & possession
-                ev.get("team", {}).get("id"), ev.get("team", {}).get("name"),
-                possession,
-                poss_team.get("id"), poss_team.get("name"),
+                # 3) Play pattern
+                play_pattern = ev.get("play_pattern", {}) or {}
 
-                # position & localisation
-                ev.get("position", {}).get("id"), ev.get("position", {}).get("name"),
-                loc[0], loc[1],
+                # 4) Localisation
+                loc = ev.get("location") or [None, None]
 
-                # durée & contexte
-                ev.get("duration"),
-                ev.get("under_pressure", False), ev.get("off_camera", False),
-                is_out,
+                # 5) Détails de la passe
+                pst = ev.get("pass", {}) or {}
+                pass_recipient = pst.get("recipient", {}) or {}
+                pass_end_loc = pst.get("end_location") or [None, None]
 
-                # play pattern
-                play_pattern.get("id"), play_pattern.get("name"),
+                # 6) Détails du tir
+                sht = ev.get("shot", {}) or {}
+                shot_end_loc = sht.get("end_location") or [None, None]
 
-                # passe
-                pass_recipient.get("id"), pass_recipient.get("name"),
-                pst.get("length"), pst.get("angle"),
-                pst.get("height", {}).get("id"), pst.get("height", {}).get("name"),
-                pass_end_loc[0], pass_end_loc[1],
-                pst.get("body_part", {}).get("id"), pst.get("body_part", {}).get("name"),
-                pst.get("outcome", {}).get("id"), pst.get("outcome", {}).get("name"),
-                pst.get("type", {}).get("id"), pst.get("type", {}).get("name"),
+                # 7) Related events et event_details
+                related = ev.get("related_events", []) or []
+                details = {
+                    k: v
+                    for k, v in ev.items()
+                    if k
+                    not in [
+                        "id",
+                        "match_id",
+                        "period",
+                        "timestamp",
+                        "minute",
+                        "second",
+                        "team",
+                        "possession_team",
+                        "play_pattern",
+                        "player",
+                        "position",
+                        "location",
+                        "duration",
+                        "under_pressure",
+                        "off_camera",
+                        "pass",
+                        "shot",
+                        "related_events",
+                        "type",
+                    ]
+                }
 
-                # tir
-                sht.get("outcome", {}).get("id"), sht.get("outcome", {}).get("name"),
-                sht.get("body_part", {}).get("id"), sht.get("body_part", {}).get("name"),
-                sht.get("statsbomb_xg"),
-                shot_end_loc[0], shot_end_loc[1],
+                # 8) Préparer le tuple à insérer
+                batch.append(
+                    (
+                        # — Clés primaires et contexte général —
+                        ev.get("id"),
+                        mid,
+                        ev.get("period"),
+                        ev.get("timestamp"),
+                        minute,
+                        second,
+                        # — Équipe et possession —
+                        ev.get("team", {}).get("id"),
+                        ev.get("team", {}).get("name"),
+                        possession,
+                        poss_team.get("id"),
+                        poss_team.get("name"),
+                        # — Position et localisation —
+                        ev.get("position", {}).get("id"),
+                        ev.get("position", {}).get("name"),
+                        loc[0],
+                        loc[1],
+                        # — Durée & contexte —
+                        ev.get("duration"),
+                        ev.get("under_pressure", False),
+                        ev.get("off_camera", False),
+                        is_out,
+                        # — Play pattern —
+                        play_pattern.get("id"),
+                        play_pattern.get("name"),
+                        # — Passe —
+                        pass_recipient.get("id"),
+                        pass_recipient.get("name"),
+                        pst.get("length"),
+                        pst.get("angle"),
+                        pst.get("height", {}).get("id"),
+                        pst.get("height", {}).get("name"),
+                        pass_end_loc[0],
+                        pass_end_loc[1],
+                        pst.get("body_part", {}).get("id"),
+                        pst.get("body_part", {}).get("name"),
+                        pst.get("outcome", {}).get("id"),
+                        pst.get("outcome", {}).get("name"),
+                        pst.get("type", {}).get("id"),
+                        pst.get("type", {}).get("name"),
+                        # — Tir —
+                        sht.get("outcome", {}).get("id"),
+                        sht.get("outcome", {}).get("name"),
+                        sht.get("body_part", {}).get("id"),
+                        sht.get("body_part", {}).get("name"),
+                        sht.get("statsbomb_xg"),
+                        shot_end_loc[0],
+                        shot_end_loc[1],
+                        # — Related events, type & détails —
+                        json.dumps(related),
+                        ev.get("type", {}).get("name"),
+                        json.dumps(details),
+                    )
+                )
 
-                # liés & type & détails
-                json.dumps(related),
-                ev.get("type", {}).get("name"),
-                json.dumps(details),
-            ))
+        # 4) Insertion du batch courant (au maximum 500 fichiers)
+        if batch:
+            pg.insert_rows(
+                table="events",
+                rows=batch,
+                target_fields=[
+                    "event_id",
+                    "match_id",
+                    "period",
+                    "timestamp",
+                    "minute",
+                    "second",
+                    "team_id",
+                    "team_name",
+                    "possession",
+                    "possession_team_id",
+                    "possession_team_name",
+                    "position_id",
+                    "position_name",
+                    "location_x",
+                    "location_y",
+                    "duration",
+                    "under_pressure",
+                    "off_camera",
+                    "is_out",
+                    "play_pattern_id",
+                    "play_pattern_name",
+                    "pass_recipient_id",
+                    "pass_recipient_name",
+                    "pass_length",
+                    "pass_angle",
+                    "pass_height_id",
+                    "pass_height_name",
+                    "pass_end_location_x",
+                    "pass_end_location_y",
+                    "pass_body_part_id",
+                    "pass_body_part_name",
+                    "pass_outcome_id",
+                    "pass_outcome_name",
+                    "pass_type_id",
+                    "pass_type_name",
+                    "shot_outcome_id",
+                    "shot_outcome_name",
+                    "shot_body_part_id",
+                    "shot_body_part_name",
+                    "shot_statsbomb_xg",
+                    "shot_end_location_x",
+                    "shot_end_location_y",
+                    "related_events",
+                    "event_type",
+                    "event_details",
+                ],
+                commit_every=20,
+            )
+            logging.info(
+                "Chunk %d/%d : inséré %d lignes dans events.",
+                chunk_index,
+                len(chunks),
+                len(batch),
+            )
+        else:
+            logging.info("Chunk %d/%d : aucun événement à insérer.", chunk_index, len(chunks))
 
-    logging.info("Prepared %d event rows for insert", len(batch))
-    if batch:
-        pg.insert_rows(
-            table="events",
-            rows=batch,
-            target_fields=[
-                "event_id","match_id","period","timestamp",
-                "minute","second",
-                "team_id","team_name","possession",
-                "possession_team_id","possession_team_name",
-                "position_id","position_name",
-                "location_x","location_y",
-                "duration","under_pressure","off_camera","is_out",
-                "play_pattern_id","play_pattern_name",
-                "pass_recipient_id","pass_recipient_name","pass_length","pass_angle",
-                "pass_height_id","pass_height_name",
-                "pass_end_location_x","pass_end_location_y",
-                "pass_body_part_id","pass_body_part_name",
-                "pass_outcome_id","pass_outcome_name",
-                "pass_type_id","pass_type_name",
-                "shot_outcome_id","shot_outcome_name",
-                "shot_body_part_id","shot_body_part_name",
-                "shot_statsbomb_xg","shot_end_location_x","shot_end_location_y",
-                "related_events","event_type","event_details"
-            ],
-            commit_every=100,
-        )
-        logging.info("Events insert done.")
-    else:
-        logging.info("No new events to insert.")
+        # 5) Pause courte pour laisser le scheduler faire son heartbeat
+        time.sleep(1)
+
+    logging.info("load_events: traitement complet des fichiers terminé.")
 
 
 with DAG(
@@ -442,7 +523,7 @@ with DAG(
     t4 = PythonOperator(
         task_id="load_events",
         python_callable=load_events,
-        execution_timeout=timedelta(hours=1),
+        execution_timeout=timedelta(hours=8),
         retries=2,
         retry_delay=timedelta(minutes=10),
     )

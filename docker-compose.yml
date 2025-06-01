@@ -1,25 +1,28 @@
-# docker-compose.yml
+# docker-compose.yml (mise à jour mai 2025)
+
 services:
 
+  ### 1) MinIO (équivalent S3 local) ##########################
   minio:
     image: minio/minio:latest
     env_file: .env
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9000:9000"   # API S3
+      - "9001:9001"   # Console web MinIO
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - minio_data:/data
-    restart: always
     healthcheck:
       test: ["CMD", "sh", "-c", "mc alias set myminio http://localhost:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD} && mc admin info myminio"]
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
 
+  ### 2) PostgreSQL (Airflow metadata DB + nos tables StatsBomb) ###
   postgres:
     image: postgres:13
     env_file: .env
@@ -31,17 +34,20 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Le script create_tables.sql sera exécuté automatiquement à l’initialisation
       - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql:ro
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
 
+  ### 3) dbt (facultatif, pour docs et runs DBT) ##############
   dbt:
     image: ghcr.io/dbt-labs/dbt-postgres:1.9.latest
-    depends_on: [postgres]
+    depends_on:
+      - postgres
     env_file: .env
     working_dir: /usr/app
     volumes:
@@ -50,16 +56,18 @@ services:
     ports:
       - "8085:8085"
     command: ["docs", "serve", "--port", "8085", "--host", "0.0.0.0"]
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8085/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
 
+  ### 4) Superset (facultatif) #################################
   superset:
     image: apache/superset:latest
-    depends_on: [postgres]
+    depends_on:
+      - postgres
     env_file: .env
     volumes:
       - superset_home:/home/superset
@@ -69,25 +77,32 @@ services:
         postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
     ports:
       - "8088:8088"
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8088/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
 
-  # ────────────────────────────────────────────────────────────────────────────
+  ### 5) Construire l’image Airflow ############################
   airflow-image:
     build:
       context: .
       dockerfile: Dockerfile-airflow
     image: data_pipeline_project-airflow:latest
+    # On force un DNS Google ici aussi (optionnel, si Docker Desktop a encore du mal)
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
+  ### 6) Initialisation Airflow (création des tables de métadonnées + user admin) ###
   airflow-init:
     image: data_pipeline_project-airflow:latest
     env_file: .env
-    depends_on: [postgres, minio]
-    # IMPORTANT : on exporte les mêmes vars que scheduler/webserver
+    depends_on:
+      - postgres
+      - minio
+    # Propager exactement les mêmes variables/env que scheduler/webserver
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: >-
@@ -100,22 +115,34 @@ services:
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
       AWS_DEFAULT_REGION: us-east-1
       AIRFLOW__AWS__S3_ENDPOINT_URL: http://minio:9000
-    entrypoint: >
-      bash -c "
-        airflow db upgrade &&
+    # CMD d’initialisation : on upgrade la DB et on crée l’utilisateur admin
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        # On force l’initialisation de la DB
+        airflow db upgrade --quiet
+
+        # Puis on crée l’utilisateur admin (si déjà présent, OK)
         airflow users create \
           --username admin \
           --firstname Airflow \
           --lastname Admin \
           --role Admin \
           --email admin@example.com \
-          --password ${AIRFLOW__WEBSERVER__SECRET_KEY}
-      "
-    restart: "no"
+          --password ${AIRFLOW__WEBSERVER__SECRET_KEY} \
+          --quiet || echo "User admin existe déjà."
 
+        # Enfin, on ne quitte pas immédiatement (on s’assure que le container reste "terminé" proprement)
+        echo "✅ Airflow metadata DB initialisée, user admin créé (ou existait)."
+    restart: "no"
+    # Pas de healthcheck ici, puisqu’on veut juste qu’il sorte sans erreur
+
+  ### 7) Scheduler Airflow ####################################
   airflow-scheduler:
     image: data_pipeline_project-airflow:latest
-    depends_on: [airflow-init]
+    depends_on:
+      - airflow-init
     env_file: .env
     command: ["airflow", "scheduler"]
     volumes:
@@ -135,16 +162,18 @@ services:
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
       AWS_DEFAULT_REGION: us-east-1
       AIRFLOW__AWS__S3_ENDPOINT_URL: http://minio:9000
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "airflow jobs check --job-type SchedulerJob || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
 
+  ### 8) Webserver Airflow ####################################
   airflow-webserver:
     image: data_pipeline_project-airflow:latest
-    depends_on: [airflow-init]
+    depends_on:
+      - airflow-init
     env_file: .env
     command: ["airflow", "webserver", "--port", "8080"]
     ports:
@@ -167,13 +196,13 @@ services:
       AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD}
       AWS_DEFAULT_REGION: us-east-1
       AIRFLOW__AWS__S3_ENDPOINT_URL: http://minio:9000
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 60s
+    restart: always
 
 volumes:
   minio_data:
