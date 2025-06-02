@@ -24,6 +24,8 @@ models:
         description: "Identifiant unique de l’équipe"
       - name: team_name
         description: "Nom de l’équipe"
+      - name: team_gender
+        description: "Genre de l’équipe"
 
   - name: dim_player
     description: "Dimension des joueurs"
@@ -58,21 +60,41 @@ models:
         description: "Identifiant unique de l’événement"
       - name: match_id
         description: "Identifiant du match"
+      - name: event_timestamp
+        description: "Horodatage complet (date + heure) de l’événement"
+      - name: period
+        description: "Période du match (1re mi-temps / 2e mi-temps…)"
+      - name: event_time
+        description: "Heure (type TIME) de l’événement dans le match"
       - name: team_id
         description: "Clé vers dim_team"
+      - name: team_name
+        description: "Nom de l’équipe"
       - name: player_id
         description: "Clé vers dim_player"
-      - name: event_timestamp
-        description: "Horodatage de l’événement"
-      - name: date
-        description: "Clé vers dim_date"
-      - name: period
-        description: "Période du match"
-      - name: minute
-        description: "Minute de l’événement"
-      - name: second
-        description: "Seconde de l’événement"
+      - name: player_name
+        description: "Nom du joueur"
+      - name: position_id
+        description: "Identifiant du poste du joueur"
+      - name: position_name
+        description: "Nom du poste du joueur"
+      - name: location_x
+        description: "Coordonnée X de l’action"
+      - name: location_y
+        description: "Coordonnée Y de l’action"
+      - name: duration
+        description: "Durée (en secondes) de l’événement"
+      - name: under_pressure
+        description: "TRUE si le joueur était sous pression"
+      - name: off_camera
+        description: "TRUE si l’action était hors caméra"
+      - name: play_pattern_id
+        description: "Identifiant du pattern de jeu"
+      - name: play_pattern_name
+        description: "Nom du pattern de jeu"
+      - name: related_events
+        description: "Liste JSON des événements liés"
       - name: event_type
-        description: "Type d’événement"
-      - name: event_subtype
-        description: "Sous-type d’événement"
+        description: "Type d’événement (Pass, Shot, Dribble…)"
+      - name: event_details
+        description: "JSONB des autres attributs non dénormalisés"

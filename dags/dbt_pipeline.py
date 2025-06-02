@@ -1,34 +1,28 @@
 from datetime import datetime
 from airflow import DAG
-from airflow.providers.docker.operators.docker import DockerOperator
-from docker.types import Mount
+from airflow.operators.bash import BashOperator
 
 default_args = {
-    'owner': 'airflow',
-    'start_date': datetime(2025, 5, 1),
+    "owner": "airflow",
+    "start_date": datetime(2025, 5, 1),
+    "retries": 1,
 }
 
 with DAG(
-    dag_id='dbt_pipeline',
+    dag_id="dbt_pipeline",
     default_args=default_args,
     schedule_interval=None,
     catchup=False,
+    tags=["dbt"],
 ) as dag:
 
-    dbt_run = DockerOperator(
-        task_id='dbt_run',
-        image='dbt:1.9.4',  # ou le nom de ton image dbt si tu as personnalisé
-        api_version='auto',
-        auto_remove=True,
-        docker_url='unix://var/run/docker.sock',
-        network_mode='bridge',
-        mounts=[
-            Mount(source='/var/run/docker.sock', target='/var/run/docker.sock', type='bind'),
-            Mount(source='/opt/airflow/statsbomb_dbt', target='/usr/app', type='bind'),
-            Mount(source='/opt/airflow/dbt_profiles', target='/root/.dbt', type='bind'),
-        ],
-        working_dir='/usr/app',
-        command="dbt run --profiles-dir /root/.dbt",
+    dbt_run = BashOperator(
+        task_id="dbt_run",
+        bash_command=(
+            "cd /opt/airflow/statsbomb_dbt "
+            "&& dbt deps --profiles-dir /opt/airflow/dbt_profiles "
+            "&& dbt run --profiles-dir /opt/airflow/dbt_profiles"
+        ),
     )
 
     dbt_run

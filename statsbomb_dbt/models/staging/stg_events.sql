@@ -1,4 +1,4 @@
--- models/staging/stg_events.sql
+-- statsbomb_dbt/models/staging/stg_events.sql
 
 {{
   config(
@@ -26,6 +26,9 @@ select
   ev.play_pattern_id      as play_pattern_id,
   ev.play_pattern_name    as play_pattern_name,
   ev.related_events       as related_events,
-  ev.event_type           as event_type,
+
+  -- Remplacement de `ev.event_type` par `ev.type_name`
+  ev.type_name            as event_type,
+
   ev.event_details        as event_details
 from {{ source('raw', 'events') }} as ev

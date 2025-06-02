@@ -1,21 +1,31 @@
-# Dockerfile-airflow
 ########################################################
 #   On part de l’image officielle Apache Airflow 2.7.1 #
-#   python 3.10                              #
+#   Python 3.10                                          #
 ########################################################
 
 ARG AIRFLOW_IMAGE=apache/airflow:2.7.1-python3.10
 FROM ${AIRFLOW_IMAGE}
 
-# Exécuter en tant qu’utilisateur airflow pour installer les providers
+USER root
+
+# Installer les dépendances système requises pour dbt-postgres
+RUN apt-get update \
+    && apt-get install -y gcc libpq-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Repasser sous l’utilisateur airflow pour installer les paquets Python
 USER airflow
 
+# Installer les providers Airflow + dbt-core (1.9.4) + dbt-postgres (1.9.0)
 RUN pip install --no-cache-dir \
     apache-airflow-providers-amazon \
-    apache-airflow-providers-postgres
+    apache-airflow-providers-postgres \
+    dbt-core==1.9.4 \
+    dbt-postgres==1.9.0
 
-# On reste user 'airflow' pour que le container n’exécute pas Airflow en root
-USER airflow
+# (Optionnel) Installer d’autres dépendances Python si besoin
+# COPY requirements.txt /
+# RUN pip install --no-cache-dir -r /requirements.txt
 
-# Par défaut, l’image de base expose déjà les commandes airflow
-# On n’a plus besoin de CMD ni d’ENTRYPOINT ici
+# On reste user 'airflow' : pas besoin de CMD/ENTRYPOINT supplémentaire
