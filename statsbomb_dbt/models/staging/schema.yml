@@ -4,47 +4,332 @@ models:
   - name: stg_events
     description: "Staging des évènements de match"
     columns:
+      # ─────────── 1. Identifiant et référence au match ───────────
       - name: event_id
-        description: "Identifiant unique de l’événement"
+        description: "Identifiant unique de l’événement (UUID)"
       - name: match_id
         description: "Identifiant du match associé"
+
+      # ─────────── 2. Contexte temporel ───────────
+      - name: index
+        description: "Index de l'événement dans la liste d'événements du match"
       - name: period
-        description: "Période du match (1=mi-temps 1, 2=mi-temps 2…)"
+        description: "Période du match (1 = 1re mi-temps, 2 = 2e mi-temps, etc.)"
       - name: event_time
-        description: "Heure de l’événement (type TIME) au sein du match"
+        description: "Horodatage (TIME) de l’événement dans le match"
       - name: minute
         description: "Minute du match (entier)"
       - name: second
         description: "Seconde dans la minute (entier)"
+
+      # ─────────── 3. Type générique d’événement ───────────
+      - name: type_id
+        description: "Identifiant du type d’événement (ex. Pass = 16, Shot = 10…) "
+      - name: type_name
+        description: "Nom du type d’événement (ex. ‘Pass’, ‘Shot’, ‘Dribble’, etc.)"
+
+      # ─────────── 4. Possession et équipe en possession ───────────
+      - name: possession
+        description: "TRUE si l’équipe spécifiée est en possession du ballon"
+      - name: possession_team_id
+        description: "Identifiant de l’équipe en possession"
+      - name: possession_team_name
+        description: "Nom de l’équipe en possession"
+
+      # ─────────── 5. Play pattern ───────────
+      - name: play_pattern_id
+        description: "Identifiant du pattern de jeu (ex. 8 = From Keeper)"
+      - name: play_pattern_name
+        description: "Nom du pattern de jeu (ex. ‘From Keeper’, ‘Throw In’, etc.)"
+
+      # ─────────── 6. Équipe réalisatrice de l’action ───────────
       - name: team_id
-        description: "Identifiant de l’équipe réalisant l’action"
+        description: "Identifiant de l’équipe réalisatrice de l’action"
       - name: team_name
-        description: "Nom de l’équipe réalisant l’action"
+        description: "Nom de l’équipe réalisatrice de l’action"
+
+      # ─────────── 7. Joueur (le cas échéant) ───────────
       - name: player_id
-        description: "Identifiant du joueur (s’il y en a un)"
+        description: "Identifiant du joueur impliqué (s’il y en a un)"
       - name: player_name
-        description: "Nom du joueur"
+        description: "Nom du joueur impliqué"
+
+      # ─────────── 8. Position sur le terrain (le cas échéant) ───────────
       - name: position_id
-        description: "Identifiant du poste du joueur"
+        description: "Identifiant du poste du joueur (ex. 1 = Gardien, 3 = Défenseur…)"
       - name: position_name
-        description: "Nom du poste du joueur"
+        description: "Nom du poste du joueur (ex. ‘Keeper’, ‘Defender’, etc.)"
+
+      # ─────────── 9. Localisation & durée / contexte ───────────
       - name: location_x
-        description: "Coordonnée X de l’action sur le terrain"
+        description: "Coordonnée X de l'action sur le terrain (0–120)"
       - name: location_y
-        description: "Coordonnée Y de l’action sur le terrain"
+        description: "Coordonnée Y de l'action sur le terrain (0–80)"
       - name: duration
-        description: "Durée de l’événement (secondes), si renseignée"
+        description: "Durée de l’événement (en secondes), si fournie"
       - name: under_pressure
         description: "TRUE si le porteur du ballon était sous pression"
       - name: off_camera
-        description: "TRUE si l’action était hors caméra"
-      - name: play_pattern_id
-        description: "Identifiant du pattern de jeu (ex. 8=From Keeper)"
-      - name: play_pattern_name
-        description: "Nom du pattern de jeu (ex. From Keeper, Throw In, etc.)"
+        description: "TRUE si l’action s’est produite hors caméra"
+      - name: out
+        description: "TRUE si le ballon est sorti (hors-jeu)"
+
+      # ─────────── 10. Related Events & Tactics ───────────
       - name: related_events
-        description: "JSONB liste d’UUID d’événements liés"
-      - name: event_type
-        description: "Type principal d’événement (Pass, Shot, Dribble…)"
+        description: "JSONB : liste d’UUID d’événements liés"
+      - name: tactics
+        description: "JSONB : formation / effectif (Starting XI, Tactical Shift, etc.)"
+
+      # ─────────── 11. PASS (type_name = 'Pass') ───────────
+      - name: pass_recipient_id
+        description: "Identifiant du joueur destinataire de la passe"
+      - name: pass_recipient_name
+        description: "Nom du joueur destinataire de la passe"
+      - name: pass_length
+        description: "Longueur de la passe (distance, en mètres)"
+      - name: pass_angle
+        description: "Angle de la passe (en degrés, 0 = droite, 180 = gauche)"
+      - name: pass_height_id
+        description: "Identifiant de la hauteur de la passe (ex. 2 = Ground, 8 = High Pass)"
+      - name: pass_height_name
+        description: "Nom de la hauteur de la passe (ex. ‘Ground’, ‘High Pass’)"
+      - name: pass_end_location_x
+        description: "Coordonnée X de l’emplacement d’arrivée de la passe"
+      - name: pass_end_location_y
+        description: "Coordonnée Y de l’emplacement d’arrivée de la passe"
+      - name: pass_body_part_id
+        description: "Identifiant de la partie du corps utilisée (ex. 40 = Right Foot)"
+      - name: pass_body_part_name
+        description: "Nom de la partie du corps utilisée pour la passe"
+      - name: pass_type_id
+        description: "Identifiant du type de passe (ex. 1 = Simple pass, 3 = Through ball)"
+      - name: pass_type_name
+        description: "Nom du type de passe (ex. ‘Simple pass’, ‘Through ball’)"
+      - name: pass_outcome_id
+        description: "Identifiant de l’issue de la passe (ex. 1 = Complete, 2 = Incomplete)"
+      - name: pass_outcome_name
+        description: "Nom de l’issue de la passe (ex. ‘Complete’, ‘Incomplete’)"
+      - name: assisted_shot_id
+        description: "UUID du tir assisté par cette passe (s’il y en a un)"
+      - name: backheel
+        description: "TRUE si la passe a été réalisée du talon (backheel)"
+      - name: deflected
+        description: "TRUE si la passe a été déviée par un défenseur"
+      - name: miscommunication
+        description: "TRUE si la passe a été mal lue / mal comprise"
+      - name: cross
+        description: "TRUE si la passe est un centre (cross)"
+      - name: cut_back
+        description: "TRUE si la passe est une remise (cut back) dans la surface"
+      - name: switch
+        description: "TRUE si la passe change de côté du terrain"
+      - name: shot_assist
+        description: "TRUE si la passe mène à un tir (shot assist)"
+      - name: goal_assist
+        description: "TRUE si la passe mène à un but (goal assist)"
+      - name: pass_technique_id
+        description: "Identifiant de la technique de passe (ex. 15 = Lob)"
+      - name: pass_technique_name
+        description: "Nom de la technique de passe (ex. ‘Lob’, ‘Through Ball’)"
+      - name: is_out
+        description: "TRUE si l’issue de la passe est ‘Out’ (ballon sorti)"
+
+      # ─────────── 12. CARRY (type_name = 'Carry') ───────────
+      - name: carry_end_location_x
+        description: "Coordonnée X de l’emplacement où le porteur s’arrête"
+      - name: carry_end_location_y
+        description: "Coordonnée Y de l’emplacement où le porteur s’arrête"
+      - name: carry_overrun
+        description: "TRUE si le porteur a dépassé un défenseur (overrun)"
+      - name: carry_nutmeg
+        description: "TRUE si le porteur a fait un passement de jambes (nutmeg)"
+
+      # ─────────── 13. DRIBBLE (type_name = 'Dribble') ───────────
+      - name: dribble_outcome_id
+        description: "Identifiant du résultat du dribble (ex. 1 = Complete, 2 = Incomplete)"
+      - name: dribble_outcome_name
+        description: "Nom du résultat du dribble (ex. ‘Complete’, ‘Incomplete’)"
+      - name: dribble_overrun
+        description: "TRUE si le dribble a provoqué un débordement"
+      - name: dribble_nutmeg
+        description: "TRUE si le dribble inclut un passement de jambes"
+      - name: dribble_no_touch
+        description: "TRUE s’il n’y a eu aucune touche de ballon sur le dribble (no_touch)"
+
+      # ─────────── 14. BALL RECEIPT* (type_name = 'Ball Receipt*') ───────────
+      - name: ball_receipt_outcome_id
+        description: "Identifiant du résultat de la réception (ex. 1 = Successful)"
+      - name: ball_receipt_outcome_name
+        description: "Nom du résultat de la réception (ex. ‘Successful’, ‘Unsuccessful’)"
+
+      # ─────────── 15. SHOT (type_name = 'Shot') ───────────
+      - name: shot_body_part_id
+        description: "Identifiant de la partie du corps pour le tir (ex. 40 = Right Foot)"
+      - name: shot_body_part_name
+        description: "Nom de la partie du corps utilisée pour le tir"
+      - name: shot_statsbomb_xg
+        description: "Valeur xG StatsBomb du tir"
+      - name: shot_outcome_id
+        description: "Identifiant de l’issue du tir (ex. 1 = Goal, 2 = Missed, 3 = Saved…)"
+      - name: shot_outcome_name
+        description: "Nom de l’issue du tir (ex. ‘Goal’, ‘Missed’, ‘Saved’, etc.)"
+      - name: shot_end_location_x
+        description: "Coordonnée X du point de chute du tir"
+      - name: shot_end_location_y
+        description: "Coordonnée Y du point de chute du tir"
+      - name: shot_end_location_z
+        description: "Coordonnée Z (hauteur) du tir, si disponible"
+      - name: shot_key_pass_id
+        description: "UUID de la passe ayant amené ce tir (s’il y en a une)"
+      - name: shot_aerial_won
+        description: "TRUE si le tir provient d’un duel aérien remporté"
+      - name: shot_follows_dribble
+        description: "TRUE si le tir suit immédiatement un dribble"
+      - name: shot_first_time
+        description: "TRUE si le tir est en une touche (first-time)"
+      - name: shot_open_goal
+        description: "TRUE si le tir est devant un but vide (open goal)"
+      - name: shot_deflected
+        description: "TRUE si le tir a été dévié"
+      - name: shot_technique_id
+        description: "Identifiant de la technique du tir (ex. 1 = Lob, 2 = Volley)"
+      - name: shot_technique_name
+        description: "Nom de la technique du tir (ex. ‘Lob’, ‘Volley’, etc.)"
+      - name: shot_stats_frame
+        description: "JSONB : freeze frame du tir (liste des positions et attributs autour du tir)"
+
+      # ─────────── 16. PRESSURE (type_name = 'Pressure') ───────────
+      - name: pressure_counterpress
+        description: "TRUE si l’action est un contre-pressing"
+
+      # ─────────── 17. 50/50 (type_name = '50/50') ───────────
+      - name: duel_5050_outcome_id
+        description: "Identifiant du résultat du duel 50/50 (ex. 1 = Won, 2 = Lost)"
+      - name: duel_5050_outcome_name
+        description: "Nom du résultat du duel 50/50 (ex. ‘Won’, ‘Lost’)"
+      - name: duel_5050_counterpress
+        description: "TRUE si le duel 50/50 est lié à un turnover immédiat (counterpress)"
+
+      # ─────────── 18. BLOCK (type_name = 'Block') ───────────
+      - name: block_deflection
+        description: "TRUE si c’est une déviation de tir (deflection)"
+      - name: block_offensive
+        description: "TRUE si c’est un bloc offensif"
+      - name: block_save_block
+        description: "TRUE si le bloc est un arrêt de tir (save block)"
+      - name: block_counterpress
+        description: "TRUE si le bloc fait partie d’un contre-pressing"
+
+      # ─────────── 19. CLEARANCE (type_name = 'Clearance') ───────────
+      - name: clearance_aerial_won
+        description: "TRUE si le dégagement provient d’un duel aérien gagné"
+      - name: clearance_body_part_id
+        description: "Identifiant de la partie du corps pour le dégagement"
+      - name: clearance_body_part_name
+        description: "Nom de la partie du corps pour le dégagement"
+
+      # ─────────── 20. DRIBBLED PAST (type_name = 'Dribbled Past') ───────────
+      - name: dribbled_past_counterpress
+        description: "TRUE si le dribble passé fait partie d’un contre-pressing"
+
+      # ─────────── 21. DUEL (type_name = 'Duel') ───────────
+      - name: duel_counterpress
+        description: "TRUE si le duel fait partie d’un contre-pressing"
+      - name: duel_type_id
+        description: "Identifiant du type de duel (ex. 11 = Tackle)"
+      - name: duel_type_name
+        description: "Nom du type de duel (ex. ‘Tackle’, ‘Aerial Duel’, etc.)"
+      - name: duel_outcome_id
+        description: "Identifiant de l’issue du duel (ex. 1 = Won, 2 = Lost)"
+      - name: duel_outcome_name
+        description: "Nom de l’issue du duel (ex. ‘Won’, ‘Lost’)"
+
+      # ─────────── 22. FOUL COMMITTED (type_name = 'Foul Committed') ───────────
+      - name: foul_committed_counterpress
+        description: "TRUE si la faute commise fait partie d’un contre-pressing"
+      - name: foul_committed_offensive
+        description: "TRUE si la faute commise est offensive"
+      - name: foul_committed_type_id
+        description: "Identifiant du type de faute (ex. 8 = Holding)"
+      - name: foul_committed_type_name
+        description: "Nom du type de faute commise"
+      - name: foul_committed_advantage
+        description: "TRUE si l’avantage a été joué après la faute commise"
+      - name: foul_committed_penalty
+        description: "TRUE si la faute a entraîné un penalty"
+      - name: foul_committed_card_id
+        description: "Identifiant de la carte montrée (ex. 1 = Yellow, 2 = Red)"
+      - name: foul_committed_card_name
+        description: "Nom de la carte montrée (ex. ‘Yellow Card’, ‘Red Card’)"
+
+      # ─────────── 23. FOUL WON (type_name = 'Foul Won') ───────────
+      - name: foul_won_defensive
+        description: "TRUE si la faute gagnée a été défensive"
+      - name: foul_won_advantage
+        description: "TRUE si l’avantage a été joué après la faute gagnée"
+      - name: foul_won_penalty
+        description: "TRUE si la faute gagnée a entraîné un penalty"
+
+      # ─────────── 24. GOALKEEPER (type_name = 'Goalkeeper') ───────────
+      - name: goalkeeper_position_id
+        description: "Identifiant de la position du gardien (ex. 1 = Keeper)"
+      - name: goalkeeper_position_name
+        description: "Nom de la position du gardien"
+      - name: goalkeeper_technique_id
+        description: "Identifiant de la technique du gardien (ex. 1 = Catch)"
+      - name: goalkeeper_technique_name
+        description: "Nom de la technique du gardien (ex. ‘Catch’, ‘Pick Up’) "
+      - name: goalkeeper_body_part_id
+        description: "Identifiant de la partie du corps du gardien utilisée"
+      - name: goalkeeper_body_part_name
+        description: "Nom de la partie du corps du gardien (ex. ‘Right Hand’) "
+      - name: goalkeeper_type_id
+        description: "Identifiant du type d’action gardien (ex. 1 = Save, 2 = Punch)"
+      - name: goalkeeper_type_name
+        description: "Nom du type d’action gardien (ex. ‘Save’, ‘Punch’) "
+      - name: goalkeeper_outcome_id
+        description: "Identifiant de l’issue de l’action gardien (ex. 1 = Successful)"
+      - name: goalkeeper_outcome_name
+        description: "Nom de l’issue de l’action gardien (ex. ‘Successful’, ‘Unsuccessful’)"
+
+      # ─────────── 25. INTERCEPTION (type_name = 'Interception') ───────────
+      - name: interception_outcome_id
+        description: "Identifiant de l’issue de l’interception (ex. 1 = Successful)"
+      - name: interception_outcome_name
+        description: "Nom de l’issue de l’interception (ex. ‘Successful’, ‘Unsuccessful’)"
+      - name: interception_counterpress
+        description: "TRUE si l’interception fait partie d’un contre-pressing"
+
+      # ─────────── 26. MISCONTROL (type_name = 'Miscontrol') ───────────
+      - name: miscontrol_aerial_won
+        description: "TRUE si le contrôle raté découle d’un duel aérien perdu"
+
+      # ─────────── 27. BALL RECOVERY (type_name = 'Ball Recovery') ───────────
+      - name: ball_recovery_offensive
+        description: "TRUE si la récupération de balle est offensive"
+      - name: ball_recovery_failure
+        description: "TRUE si la récupération de balle a échoué"
+
+      # ─────────── 28. SUBSTITUTION (type_name = 'Substitution') ───────────
+      - name: substitution_replacement_id
+        description: "Identifiant du joueur entrant (substitution)"
+      - name: substitution_replacement_name
+        description: "Nom du joueur entrant (substitution)"
+      - name: substitution_outcome_id
+        description: "Identifiant de l’issue de la substitution (ex. 1 = Made)"
+      - name: substitution_outcome_name
+        description: "Nom de l’issue de la substitution (ex. ‘Made’, ‘Canceled’)"
+
+      # ─────────── 29. PLAYER OFF (type_name = 'Player Off') ───────────
+      - name: player_off_permanent
+        description: "TRUE si le joueur est sorti définitivement (player off)"
+
+      # ─────────── 30. BAD BEHAVIOUR (type_name = 'Bad Behaviour') ───────────
+      - name: bad_behaviour_card_id
+        description: "Identifiant de la carte pour mauvais comportement (ex. 1 = Yellow)"
+      - name: bad_behaviour_card_name
+        description: "Nom de la carte pour mauvais comportement (ex. ‘Yellow Card’)"
+
+      # ─────────── 31. CHAMPS JSON additionnels ───────────
       - name: event_details
-        description: "JSONB des attributs détaillés non normalisés"
+        description: "JSONB stockant tous les attributs détaillés non normalisés restants"

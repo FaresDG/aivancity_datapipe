@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: kpi_passing_accuracy
+    description: "Taux de passes réussies par équipe et par joueur, par match"
+    columns:
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Identifiant de l’équipe"
+      - name: team_name
+        description: "Nom de l’équipe"
+      - name: team_passing_accuracy
+        description: "Taux de passes réussies par l’équipe dans ce match"
+      - name: player_id
+        description: "Identifiant du joueur (facultatif si on veut l’agrégation équipe uniquement)"
+      - name: player_name
+        description: "Nom du joueur"
+      - name: player_passing_accuracy
+        description: "Taux de passes réussies par le joueur dans ce match"
+
+  - name: kpi_possession_events
+    description: "Nombre et ratio d’événements de possession par équipe, par match"
+    columns:
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Identifiant de l’équipe en possession"
+      - name: possession_event_count
+        description: "Nombre brut d’événements où l’équipe est en possession"
+      - name: total_events
+        description: "Nombre total d’événements dans le match"
+      - name: possession_event_ratio
+        description: "Proportion d’événements de possession par rapport au total"
+
+  - name: kpi_shot_conversion
+    description: "Taux de conversion des tirs par équipe et par joueur, par match"
+    columns:
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Identifiant de l’équipe"
+      - name: team_name
+        description: "Nom de l’équipe"
+      - name: total_shots
+        description: "Nombre total de tirs tentés par l’équipe"
+      - name: total_goals
+        description: "Nombre total de buts marqués par l’équipe"
+      - name: team_shot_conversion_rate
+        description: "Ratio nombre de buts / nombre de tirs"
+      - name: player_id
+        description: "Identifiant du joueur"
+      - name: player_name
+        description: "Nom du joueur"
+      - name: player_total_shots
+        description: "Nombre total de tirs tentés par le joueur"
+      - name: player_total_goals
+        description: "Nombre total de buts marqués par le joueur"
+      - name: player_shot_conversion_rate
+        description: "Ratio nombre de buts / nombre de tirs du joueur"
+
+  - name: kpi_defensive_actions
+    description: "Nombre de tacles (gagnés/perdus) et d’interceptions par équipe, par match"
+    columns:
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Identifiant de l’équipe"
+      - name: team_name
+        description: "Nom de l’équipe"
+      - name: total_tackles_won
+        description: "Nombre total de tacles gagnés par l’équipe"
+      - name: total_tackles_lost
+        description: "Nombre total de tacles perdus par l’équipe"
+      - name: tackle_success_rate
+        description: "Ratio tacles gagnés / (tacles gagnés + tacles perdus)"
+      - name: total_interceptions
+        description: "Nombre total d’interceptions réussies par l’équipe"
+
+  - name: kpi_player_involvement
+    description: "Nombre total de touches (événements) et de passes-clés par joueur, par match"
+    columns:
+      - name: match_id
+        description: "Identifiant du match"
+      - name: team_id
+        description: "Identifiant de l’équipe"
+      - name: player_id
+        description: "Identifiant du joueur"
+      - name: player_name
+        description: "Nom du joueur"
+      - name: total_touches
+        description: "Nombre total d’événements impliquant le joueur (toutes actions confondues)"
+      - name: total_key_passes
+        description: "Nombre total de passes menant à un tir (key passes) par le joueur"
+      - name: key_pass_rate
+        description: "Ratio key_passes / total_touches"
