@@ -1,0 +1,41 @@
+# --------------------------------------------------------------------------------------------------
+# Ingestion DataHub pour le projet dbt
+#
+# - source.type = "dbt" : on crée la recette à partir du manifest.json et du catalog.json générés par dbt.
+# - sink.type   = "datahub-rest" : on pousse vers DataHub via son API (DataHub GMS).
+# --------------------------------------------------------------------------------------------------
+
+source:
+  type: dbt
+  config:
+    # Localisation du dossier dbt dans votre container Airflow
+    # (correspond à /opt/airflow/statsbomb_dbt dans votre docker-compose)
+    project_dir: "/opt/airflow/statsbomb_dbt"
+
+    # Si vous voulez forcer l’utilisation d’un manifest/catalog pré-généré,
+    # vous pouvez aussi indiquer les chemins explicites. Par défaut, DataHub lira :
+    #   project_dir/target/manifest.json  et  project_dir/target/catalog.json
+    # manifest: "/opt/airflow/statsbomb_dbt/target/manifest.json"
+    # catalog:  "/opt/airflow/statsbomb_dbt/target/catalog.json"
+
+    # Indique de charger les tests dbt (= assertions) comme métadonnées
+    # pour afficher dans DataHub
+    include_tests: true
+
+    # Facultatif : pour tagger / filtrer la recette dbt dans DataHub
+    # tags:
+    #   - statsbomb
+    #   - dbt
+
+sink:
+  type: datahub-rest
+  config:
+    # URL de GMS (le backend DataHub). Ici, dans votre docker-compose DataHub,
+    # le service GMS écoute sur le port 8080 et son hostname est "datahub-gms"
+    server: "http://datahub-gms:8080"
+    # Si votre GMS nécessite une clé d’API ou un token basique, vous pouvez
+    # utiliser les paramètres ci-dessous. Sinon, le mode “basic” sans auth fonctionne.
+    # auth:
+    #   type: basic
+    #   username: "admin"
+    #   password: "admin"

@@ -1,6 +1,6 @@
 ########################################################
 #   On part de l’image officielle Apache Airflow 2.7.1 #
-#   Python 3.10                                          #
+#   Python 3.10                                         #
 ########################################################
 
 ARG AIRFLOW_IMAGE=apache/airflow:2.7.1-python3.10
@@ -8,7 +8,7 @@ FROM ${AIRFLOW_IMAGE}
 
 USER root
 
-# Installer les dépendances système requises pour dbt-postgres
+# Installer les dépendances système requises pour dbt‐postgres
 RUN apt-get update \
     && apt-get install -y gcc libpq-dev \
     && apt-get clean \
@@ -17,15 +17,12 @@ RUN apt-get update \
 # Repasser sous l’utilisateur airflow pour installer les paquets Python
 USER airflow
 
-# Installer les providers Airflow + dbt-core (1.9.4) + dbt-postgres (1.9.0)
+# Installer les providers Airflow, dbt-core/postgres et la CLI DataHub
 RUN pip install --no-cache-dir \
     apache-airflow-providers-amazon \
     apache-airflow-providers-postgres \
     dbt-core==1.9.4 \
-    dbt-postgres==1.9.0
-
-# (Optionnel) Installer d’autres dépendances Python si besoin
-# COPY requirements.txt /
-# RUN pip install --no-cache-dir -r /requirements.txt
+    dbt-postgres==1.9.0 \
+    datahub
 
 # On reste user 'airflow' : pas besoin de CMD/ENTRYPOINT supplémentaire

@@ -1,0 +1,38 @@
+# --------------------------------------------------------------------------------------------------
+# Ingestion DataHub pour la base PostgreSQL
+#
+# - source.type = "postgres" : on se connecte à Postgres pour extraire schémas, tables, colonnes…
+# - sink.type   = "datahub-rest" : on pousse vers DataHub via son API (GMS).
+# --------------------------------------------------------------------------------------------------
+
+source:
+  type: postgres
+  config:
+    # Hôte du conteneur Postgres tel que défini dans docker-compose : "postgres"
+    host: "postgres"
+    port: 5432
+    # Nom de la base où sont vos données StatsBomb (vous l’avez indiqué dans .env → POSTGRES_DB)
+    database: "${POSTGRES_DB}"
+    # Identifiants (pris de votre fichier .env)
+    username: "${POSTGRES_USER}"
+    password: "${POSTGRES_PASSWORD}"
+    # On veut ingérer tous les schémas contenant des tables d’intérêt, par exemple :
+    #   - raw  (raw.events, raw.matches, raw.lineups, raw.competitions)
+    #   - public_intermediate (dim_*, fact_event)
+    #   - public_analytics    (kpi_*)
+    includeTables:
+      - raw.*
+      - public_intermediate.*
+      - public_analytics.*
+    # (Optionnel) Ne pas ingérer les tables systèmes ou historiques si nécessaire
+    # excludeTables: ["public_intermediate.temp_*"]
+
+sink:
+  type: datahub-rest
+  config:
+    server: "http://datahub-gms:8080"
+    # Mode d’auth si vous avez activé un token de service :
+    # auth:
+    #   type: basic
+    #   username: "admin"
+    #   password: "admin"
