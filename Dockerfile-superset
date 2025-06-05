@@ -1,0 +1,14 @@
+# Dockerfile-superset
+
+# 1) On part de l'image officielle Superset
+FROM apache/superset:latest
+
+# 2) On passe en root pour pouvoir installer un paquet système si besoin
+USER root
+
+# 3) On installe psycopg2-binary (driver PostgreSQL) dans l'environnement Python
+#    (vous pouvez remplacer par "psycopg2" si vous préférez)
+RUN pip install --no-cache-dir psycopg2-binary
+
+# 4) On repasse à l'utilisateur 'superset' (celui utilisé par défaut dans l'image)
+USER superset
